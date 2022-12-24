@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="<%= csrfToken %>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title><%= title %></title>
+    <script>
+        var token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+        function Electionlaunch() {
+            let EID = <%= EID %>;
+            fetch(`/elections/${EID}/launch`, {
+                method: "put",
+                headers: {"Content-Type":"application/json"},
+                body: JSON.stringify({
+                    "_csrf":token,
+                })
+            }).then((res)=>{
+                if (res.ok) {
+                    window.location.replace(`/elections/${EID}`);
+                }
+            }).catch((err)=> console.error(err))
+        }
+    </script>
+</head>
+<body class="bg-gray-50">
+    <nav class="p-8 bg-black">
+        <div class="container flex flex-wrap items-center justify-between mx-auto">
+          <a href="/" class="flex items-center">
+            <span class="self-center text-xl font-semibold whitespace-nowrap text-white">ONLINE-VOTING-SYSTEM</span>
+          </a>          
+        </div>
+      </nav>
+    <div class=" flex  text-gray-800 antialiased flex-col  overflow-hidden bg-gray-50 py-6 sm:py-12 px-20">
+        <div class="w-full">
+            
+            <div class="flex justify-between">
+                
+                <span class="text-4xl font-light "><%= title %></span>
+                <div class="flex">
+                    <div class="bg-black border border-purple-700 text-white rounded w-fit px-4 pt-2 hover:text-white hover:bg-yellow-600 mx-2 ease-linear transition-all duration-150">
+                        <a href="/elections/<%= EID %>/">Edit election</a>
+                    </div>
+                    <button onclick="Electionlaunch()" class="text-white bg-red-800 rounded w-fit px-4 hover:bg-blue-600 ml-2 ease-linear transition-all duration-150">
+                        Launch election
+                    </button>
+                </div>
+            </div>
+            
+            <div>
+                <% if (messages && messages.error && messages.error.length > 0) { %>
+                    <% for(var i=0; i<messages.error.length; i++) { %>
+                        <p class="bg-purple-100 my-3 list-none rounded-md px-4 py-2"><%= messages.error[i] %></p>
+                    <% } %>
+                <% } %>
+            </div>
+            <div class="mt-4 bg-white shadow-md rounded-lg text-left">
+                <div class="h-2 bg-black rounded-t-md"></div>
+                <div class="py-6 px-8">
+                    <ol class="list-decimal">
+                        <% for(let i=0; i<questions.length; i++) { %>
+                            <li class="my-6">
+                                
+                                <div class=" grid grid-cols-5 gap-35 border ">
+                                    <div class="col-span-1 border px-3">            
+                                        <p class="py-2 text-2xl text-red-800 px-5">Question</p>   
+                                                         
+                                    </div>
+                                    <div class="col-span-4 border">            
+                                        <p class="py-2 px-10 text-2xl text-blue-800"><%= questions[i].QuestionName %></p>   
+                                                         
+                                    </div>
+                                </div>
+                                <div class=" grid grid-cols-5 gap-35 border  ">
+                                    <div class="col-span-1 border px-3">            
+                                        <p class="py-2 text-2xl text-red-800 px-5">Description</p>   
+                                                         
+                                    </div>
+                                    <div class="col-span-4 border">            
+                                        <p class="py-2 px-10 text-2xl text-blue-800"><%= questions[i].Description %></p>   
+                                                         
+                                    </div>
+                                </div>
+                                <div class="ml-8">
+                                    <ol class="list-none">
+                                        <% for(let j=0; j<options[i].length; j++) { %>
+                                                <li class="option-item mt-2 cursor-pointer">
+                                                    <input type="radio" id="<%= options[i][j].id %>" class="cursor-pointer" name="answer-<%= questions[i].id %>">
+                                                    <label class="px-1 my-6 text-2xl cursor-pointer" for="<%= options[i][j].id %>" class="ml-2 text-lg "><%= options[i][j].option %></label>
+                                                </li>
+                                        <% } %>
+                                    </ol>
+                                </div>
+                            </li>
+                        <% } %>
+                    </ol>
+                </div>
+                
+            </div>
+            
+        </div>
+        
+    </div>
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+</body>
+</html>

@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "ashish",
+    "database": "final-vote-db",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "postgres",
+    "password": "ashish",
+    "database": "final-vote-test",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "postgres",
+    "password": "ashish",
+    "database": "database_production",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
