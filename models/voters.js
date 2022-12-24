@@ -16,8 +16,8 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
     
-    passwordreset(password) {
-      return this.update({ password });
+    passwordreset(Password) {
+      return this.update({ Password });
     }
 
     static async createVoter({ votername, Password, EID }) {
@@ -91,9 +91,25 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Voters.init({
-    votername: DataTypes.STRING,
-    Password: DataTypes.STRING,
-    Voted: DataTypes.BOOLEAN,    
+    votername: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },     
+    Password:{
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    role: {
+      type: DataTypes.STRING,
+      defaultValue: "voter",
+    },
+    Voted: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    }, 
+     
     values: DataTypes.ARRAY(DataTypes.INTEGER),
   }, {
     sequelize,

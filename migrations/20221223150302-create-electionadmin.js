@@ -22,7 +22,11 @@ module.exports = {
       },
       Password: {
         type: Sequelize.STRING
-      },      
+      }, 
+      role: {
+        type: Sequelize.STRING,
+        defaultValue: "admin",
+      },     
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

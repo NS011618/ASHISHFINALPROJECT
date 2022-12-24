@@ -74,17 +74,17 @@ passport.use(
       {
         usernameField: "votername",
         passwordField: "Password",
-        passReqToCallback: true,
+        
         
       },
-      (request, username, password, done) => {
+      ( username, password, done) => {
         Voters.findOne({
-          where: { votername: username ,EID: request.params.id },
+          where: { votername: username },
         })
-        .then(async (voter) => {
-            const result = await bcrypt.compare(password, voter.Password);
+        .then(async (user) => {
+            const result = await bcrypt.compare(password, user.Password);
             if (result) {
-              return done(null, voter);
+              return done(null, user);
             } else {
               return done(null, false, { message: "Enter a valid password" });
             }
@@ -100,11 +100,27 @@ passport.use(
 );
   
 passport.serializeUser((user, done) => {
-  done(null, user);
+  done(null, { id: user.id, role: user.role });
 });
   
-passport.deserializeUser((obj, done) => {
-  done(null, obj);
+passport.deserializeUser((id, done) => {
+  if (id.role === "admin") {
+    Electionadmin.findByPk(id.id)
+      .then((user) => {
+        done(null, user);
+      })
+      .catch((error) => {
+        done(error, null);
+      });
+  } else if (id.role === "voter") {
+    Voters.findByPk(id.id)
+      .then((user) => {
+        done(null, user);
+      })
+      .catch((error) => {
+        done(error, null);
+      });
+  }
 });
 
 
@@ -118,11 +134,19 @@ app.use(express.static(path.join(__dirname, "public")));
 
 //Home Page
 app.get("/", (request, response) => {
-    if (request.user) {
-      
+  if (request.user) {
+    console.log(request.user);
+    if (request.user.role === "admin") {
       return response.redirect("/elections");
-         
-    } else {
+    } else if (request.user.role === "voter") {
+      request.logout((err) => {
+        if (err) {
+          return response.json(err);
+        }
+        response.redirect("/");
+      });
+    }
+  } else {
       response.render("index", {
         title: "voting system",
         csrfToken: request.csrfToken(),
@@ -136,7 +160,7 @@ app.get(
     "/elections",
     connectEnsureLogin.ensureLoggedIn(),
     async (request, response) => {
-   
+      if (request.user.role === "admin") {
       let Electionuser = request.user.FirstName + " " + request.user.LastName;
       try {
         const elections = await Election.GetElections(request.user.id);
@@ -157,7 +181,10 @@ app.get(
         console.log(error);
         return response.status(422).json(error);
       }
-    } 
+    } else if (request.user.role === "voter") {
+      return response.redirect("/");
+    }
+  } 
 );
   
 //Signup page
@@ -214,12 +241,15 @@ app.get(
   "/reset-password",
   connectEnsureLogin.ensureLoggedIn(),
   (request, response) => {
-  
+    if (request.user.role === "admin") {
     response.render("resetadminpass", {
       title: "Reset your password",
       csrfToken: request.csrfToken(),
     });
-  } 
+  } else if (request.user.role === "voter") {
+    return response.redirect("/");
+  }
+}
   
 );
 
@@ -228,7 +258,7 @@ app.post(
   "/reset-password",
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
- 
+    if (request.user.role === "admin") {
     if (!request.body.old_password) {
       request.flash("error", "Please enter your old password");
       return response.redirect("/reset-password");
@@ -264,20 +294,48 @@ app.post(
       request.flash("error", "Old password does not match");
       return response.redirect("/reset-password");
     }
+  }
+    else if (request.user.role === "voter") {
+      return response.redirect("/");
+    }
   } 
 );
+//voter login page
+app.get("/e/:customurl/voter", (request, response) => {
+  response.render("voterlogin", {
+    title: "Login in as Voter",
+    customurl: request.params.customurl,
+    csrfToken: request.csrfToken(),
+  });
+});
+
+//login voter
+app.post(
+  "/e/:customurl/voter",
+  passport.authenticate("voterlocal", {
+    failureFlash: true,
+  }),
+  async (request, response) => {
+    return response.redirect(`/e/${request.params.customurl}`);
+  }
+);
+
 
 //creating a new election
 app.get(
   "/elections/new",
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
- 
+    if (request.user.role === "admin") {
     return response.render("Create-Election", {
       title: "Create-Election",
       csrfToken: request.csrfToken(),
     });
   }
+  else if (request.user.role === "voter") {
+    return response.redirect("/");
+  }
+}
     
 );
 
@@ -286,7 +344,7 @@ app.post(
   "/elections",
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
-  
+    if (request.user.role === "admin") {
     if (request.body.ElectionName.length < 5) {
       request.flash("error", "The length of the Electionname must be atleast 3");
       return response.redirect("/elections/new");
@@ -313,6 +371,9 @@ app.post(
     } catch (error) {
       request.flash("error", "email is already in use");
       return response.redirect("/elections/new");
+    } 
+  }else if (request.user.role === "voter") {
+      return response.redirect("/");
     }
   }
    
@@ -370,7 +431,7 @@ app.get(
   "/elections/:id",
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
-  
+    if (request.user.role === "admin") {
     try {
       const election = await Election.GetElection(request.params.id);
       const TotalQuestions = await EQuestion.CountQuestions(
@@ -390,6 +451,9 @@ app.get(
       console.log(error);
       return response.status(422).json(error);
     }
+  } else if (request.user.role === "voter") {
+    return response.redirect("/");
+  }
   } 
 );
 
@@ -398,7 +462,7 @@ app.get(
   "/elections/:id/questions",
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
-   
+    if (request.user.role === "admin") {
     try {
       const election = await Election.GetElection(request.params.id);
       const questions = await EQuestion.GetQuestions(request.params.id);
@@ -423,6 +487,9 @@ app.get(
       console.log(error);
       return response.status(422).json(error);
     }
+  } else if (request.user.role === "voter") {
+    return response.redirect("/");
+  }
   } 
 );
 
@@ -432,7 +499,7 @@ app.get(
   "/elections/:id/questions/create",
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
-    
+    if (request.user.role === "admin") {
     try {
       const election = await Election.GetElection(request.params.id);
       if (!election.launched) {
@@ -448,6 +515,9 @@ app.get(
       console.log(error);
       return response.status(422).json(error);
     }
+  } else if (request.user.role === "voter") {
+    return response.redirect("/");
+  }
   }
     
 );
@@ -457,7 +527,7 @@ app.post(
   "/elections/:id/questions/create",
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
-    
+    if (request.user.role === "admin") {
     if (request.body.QuestionName.length < 5) {
       request.flash("error", "question length should be atleast 5");
       return response.redirect(
@@ -482,6 +552,9 @@ app.post(
       console.log(error);
       return response.status(422).json(error);
     }
+  } else if (request.user.role === "voter") {
+    return response.redirect("/");
+  }
   }
 );
 
@@ -490,7 +563,7 @@ app.get(
   "/elections/:EID/questions/:QID/edit",
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
-    
+    if (request.user.role === "admin") { 
     try {
       const election = await Election.GetElection(request.params.EID);
       if (election.launched) {
@@ -509,6 +582,9 @@ app.get(
       console.log(error);
       return response.status(422).json(error);
     }
+  } else if (request.user.role === "voter") {
+    return response.redirect("/");
+  }
   }
 );
 
@@ -517,7 +593,7 @@ app.put(
   "/questions/:QID/edit",
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
-    
+    if (request.user.role === "admin") {
     if (request.body.QuestionName.length < 5) {
       request.flash("error", "Question length should be atleast 5");
       return response.json({
@@ -535,6 +611,9 @@ app.put(
       console.log(error);
       return response.status(422).json(error);
     }
+  } else if (request.user.role === "voter") {
+    return response.redirect("/");
+  }
   }
 );
 
@@ -543,7 +622,7 @@ app.delete(
   "/elections/:EID/questions/:QID",
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
-  
+    if (request.user.role === "admin") {
     try {
       const TQ = await EQuestion.CountQuestions(
         request.params.EID
@@ -558,6 +637,9 @@ app.delete(
       console.log(error);
       return response.status(422).json(error);
     }
+  } else if (request.user.role === "voter") {
+    return response.redirect("/");
+  }
   }
 );
 
@@ -567,7 +649,7 @@ app.get(
   "/elections/:id/questions/:QID",
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
-    
+    if (request.user.role === "admin") { 
     try {
       const question = await EQuestion.GetQuestion(request.params.QID);
       const options = await Choices.getOptions(request.params.QID);
@@ -594,6 +676,9 @@ app.get(
       console.log(error);
       return response.status(422).json(error);
     }
+  } else if (request.user.role === "voter") {
+    return response.redirect("/");
+  }
   }
 );
 
@@ -602,7 +687,7 @@ app.post(
   "/elections/:id/questions/:QID",
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
-   
+    if (request.user.role === "admin") {
     if (!request.body.option.length) {
       request.flash("error", "Please enter option");
       return response.redirect(
@@ -626,6 +711,9 @@ app.post(
       console.log(error);
       return response.status(422).json(error);
     }
+  } else if (request.user.role === "voter") {
+    return response.redirect("/");
+  }
   } 
 );
 
@@ -634,7 +722,7 @@ app.delete(
   "/options/:optionID",
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
-    
+    if (request.user.role === "admin") { 
     try {
       const res = await Choices.deleteOption(request.params.optionID);
       return response.json({ success: res === 1 });
@@ -642,7 +730,11 @@ app.delete(
       console.log(error);
       return response.status(422).json(error);
     }
+  } else if (request.user.role === "voter") {
+    return response.redirect("/");
   }
+  }
+  
 );
 
 //Edit the options
@@ -650,7 +742,7 @@ app.get(
   "/elections/:EID/questions/:QID/options/:optionID/edit",
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
-    
+    if (request.user.role === "admin") {
     try {
       const election = await Election.GetElection(request.params.EID);
       if (election.launched) {
@@ -669,6 +761,9 @@ app.get(
       console.log(error);
       return response.status(422).json(error);
     }
+  } else if (request.user.role === "voter") {
+    return response.redirect("/");
+  }
   }
 );
 
@@ -677,7 +772,7 @@ app.put(
   "/options/:optionID/edit",
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
-   
+    if (request.user.role === "admin") {
     if (!request.body.option) {
       request.flash("error", "Please enter the option");
       return response.json({
@@ -694,6 +789,9 @@ app.put(
       console.log(error);
       return response.status(422).json(error);
     }
+  } else if (request.user.role === "voter") {
+    return response.redirect("/");
+  }
   } 
 );
 
@@ -702,7 +800,7 @@ app.get(
   "/elections/:EID/voters",
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
-    
+    if (request.user.role === "admin") {
     try {
       const voters = await Voters.getVoters(request.params.EID);
       const election = await Election.GetElection(request.params.EID);
@@ -722,6 +820,9 @@ app.get(
       console.log(error);
       return response.status(422).json(error);
     }
+  } else if (request.user.role === "voter") {
+    return response.redirect("/");
+  }
   } 
 );
 
@@ -730,13 +831,17 @@ app.get(
   "/elections/:EID/voters/create",
   connectEnsureLogin.ensureLoggedIn(),
   (request, response) => {
-    
+    if (request.user.role === "admin") {  
     response.render("Create-Voter", {
       title: "Add a voter to election",
       EID: request.params.EID,
       csrfToken: request.csrfToken(),
     });
+  } else if (request.user.role === "voter") {
+    return response.redirect("/");
   }
+  }
+
 );
 
 //Post the Voter to voter page
@@ -744,24 +849,24 @@ app.post(
   "/elections/:EID/voters/create",
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
-    
+    if (request.user.role === "admin") {  
     if (!request.body.votername) {
       request.flash("error", "Please enter voterID");
       return response.redirect(
         `/elections/${request.params.EID}/voters/create`
       );
     }
-    if (!request.body.password) {
+    if (!request.body.Password) {
       request.flash("error", "Please enter password");
       return response.redirect(
         `/elections/${request.params.EID}/voters/create`
       );
     }
-    const hashedPwd = await bcrypt.hash(request.body.password, saltRounds);
+    const hashedPwd = await bcrypt.hash(request.body.Password, saltRounds);
     try {
       await Voters.createVoter({
         votername: request.body.votername,
-        password: hashedPwd,
+        Password: hashedPwd,
         EID: request.params.EID,
       });
       return response.redirect(
@@ -773,6 +878,9 @@ app.post(
         `/elections/${request.params.EID}/voters/create`
       );
     }
+  } else if (request.user.role === "voter") {
+    return response.redirect("/");
+  }
   }
 );
 
@@ -781,7 +889,7 @@ app.delete(
   "/elections/:EID/voters/:voterID",
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
-  
+    if (request.user.role === "admin") {
     try {
       const res = await Voters.deleteVoter(request.params.voterID);
       return response.json({ success: res === 1 });
@@ -789,6 +897,9 @@ app.delete(
       console.log(error);
       return response.status(422).json(error);
     }
+  } else if (request.user.role === "voter") {
+    return response.redirect("/");
+  }
   }
 );
 
@@ -799,13 +910,16 @@ app.get(
   "/elections/:EID/voters/:voterID/edit",
   connectEnsureLogin.ensureLoggedIn(),
   (request, response) => {
-    
+    if (request.user.role === "admin") {
     response.render("resetpass-voter", {
       title: "Reset voter password",
       EID: request.params.EID,
       voterID: request.params.voterID,
       csrfToken: request.csrfToken(),
     });
+  } else if (request.user.role === "voter") {
+    return response.redirect("/");
+  }
   } 
 );
 
@@ -815,7 +929,7 @@ app.post(
   "/elections/:EID/voters/:voterID/edit",
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
-   
+    if (request.user.role === "admin") { 
     if (!request.body.new_password) {
       request.flash("error", "Please enter a new password");
       return response.redirect("/reset-password");
@@ -840,6 +954,9 @@ app.post(
       console.log(error);
       return response.status(422).json(error);
     }
+  } else if (request.user.role === "voter") {
+    return response.redirect("/");
+  }
   } 
 );
 
@@ -848,7 +965,7 @@ app.get(
   "/elections/:EID/checkbeforelaunch",
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
-    
+    if (request.user.role === "admin") {
     try {
       const election = await Election.GetElection(request.params.EID);
       const questions = await EQuestion.GetQuestions(request.params.EID);
@@ -891,6 +1008,9 @@ app.get(
       console.log(error);
       return response.status(422).json(error);
     }
+  } else if (request.user.role === "voter") {
+    return response.redirect("/");
+  }
   }
   
 );
@@ -900,7 +1020,7 @@ app.put(
   "/elections/:EID/launch",
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
-   
+    if (request.user.role === "admin") {
     try {
       const launchedElection = await Election.Launchelection(
         request.params.EID
@@ -910,56 +1030,46 @@ app.put(
       console.log(error);
       return response.status(422).json(error);
     }
+  } else if (request.user.role === "voter") {
+    return response.redirect("/");
+  }
   } 
 );
 
-app.get("/election/:customurl", async (request, response) => {
+app.get("/e/:customurl/", async (request, response) => {
+  if (!request.user) {
+    request.flash("error", "Please login before trying to Vote");
+    return response.redirect(`/e/${request.params.customurl}/voter`);
+  }
   try {
     const election = await Election.GetUrl(request.params.customurl);
-    if (election.launched) {
-      const questions = await EQuestion.GetQuestions(election.id);
-      let options = [];
-      for (let question in questions) {
-        options.push(await Choices.getOptions(questions[question].id));
+    if (request.user.role === "voter") {
+      if (election.launched) {
+        const questions = await EQuestion.GetQuestions(election.id);
+        let options = [];
+        for (let question in questions) {
+          options.push(await Choices.getOptions(questions[question].id));
+        }
+        return response.render("votingpage", {
+          title: election.ElectionName,
+          EID: election.id,
+          questions,
+          options,
+          csrfToken: request.csrfToken(),
+        });
+      } else {
+        return response.render("error");
       }
-      return response.render("votingpage", {
-        title: election.ElectionName,
-        EID: request.params.EID,
-        questions,
-        options,
-        csrfToken: request.csrfToken(),
-      });
-    } else {
-      return response.render("error");
+    } else if (request.user.role === "admin") {
+      request.flash("error", "You cannot vote as Admin");
+      request.flash("error", "Please signout as Admin before trying to vote");
+      return response.redirect(`/elections/${election.id}`);
     }
   } catch (error) {
     console.log(error);
     return response.status(422).json(error);
   }
 });
-
-
-app.get("/election/:customurl/voter", (request, response) => {
-  
-  response.render("voterlogin", {
-    title: "Login",
-    customurl:request.params.customurl,
-    csrfToken: request.csrfToken(),
-  });
-  
-});
-//login voter
-app.post(
-  "/election/:urlString/voter",
-  passport.authenticate("voterlocal", {
-    failureFlash: true,
-  }),
-  async (request, response) => {
-    return response.redirect(`/election/${request.params.customurl}`);
-  }
-);
-
-
 
 
 
@@ -998,7 +1108,9 @@ app.get("/signout", (request, response, next) => {
 });
 
 
-
+app.use(function (request, response) {
+  response.status(404).render("error");
+});
 module.exports = app;
 
   
