@@ -22,7 +22,7 @@
             </div>
             <div class="mt-4 bg-white shadow-md rounded-lg text-left">
                 <div class="h-2 bg-purple-400 rounded-t-md"></div>
-                <form action="/e/<%= customurl %>/voter/" method="post" class="px-8 py-6">
+                <form action="/election/<%= customurl %>/voter/" method="post" class="px-8 py-6">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
                     <label for="votername" class="block mt-3 font-semibold">Voter ID</label>
                     <input id="votername" name="votername" type="text" placeholder="Voter ID" class="border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-indigo-500 focus:ring-1 rounded-md" required>

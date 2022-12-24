@@ -301,9 +301,9 @@ app.post(
   } 
 );
 //voter login page
-app.get("/e/:customurl/voter", (request, response) => {
+app.get("/election/:customurl/voter", (request, response) => {
   response.render("voterlogin", {
-    title: "Login in as Voter",
+    title: "Voter login",
     customurl: request.params.customurl,
     csrfToken: request.csrfToken(),
   });
@@ -311,12 +311,12 @@ app.get("/e/:customurl/voter", (request, response) => {
 
 //login voter
 app.post(
-  "/e/:customurl/voter",
+  "/election/:customurl/voter",
   passport.authenticate("voterlocal", {
     failureFlash: true,
   }),
   async (request, response) => {
-    return response.redirect(`/e/${request.params.customurl}`);
+    return response.redirect(`/election/${request.params.customurl}`);
   }
 );
 
@@ -369,7 +369,7 @@ app.post(
       });
       return response.redirect("/elections");
     } catch (error) {
-      request.flash("error", "email is already in use");
+      request.flash("error", "Email is already in used");
       return response.redirect("/elections/new");
     } 
   }else if (request.user.role === "voter") {
@@ -655,7 +655,7 @@ app.get(
       const options = await Choices.getOptions(request.params.QID);
       const election = await Election.GetElection(request.params.id);
       if (election.launched) {
-        request.flash("error", "Sorry You Cannot edit while the election is running");
+        request.flash("error", "Sorry, You Cannot edit while the election is running");
         return response.redirect(`/elections/${request.params.id}/`);
       }
       if (request.accepts("html")) {
@@ -697,7 +697,7 @@ app.post(
     try {
       const election = await Election.GetElection(request.params.id);
       if (election.launched) {
-        request.flash("error", "Cannot edit while election is running");
+        request.flash("error", "Sorry, You Cannot edit while election is running");
         return response.redirect(`/elections/${request.params.id}/`);
       }
       await Choices.addOption({
@@ -746,7 +746,7 @@ app.get(
     try {
       const election = await Election.GetElection(request.params.EID);
       if (election.launched) {
-        request.flash("error", "Sorry You Cannot edit while the election is running");
+        request.flash("error", "Sorry , You Cannot edit while the election is running");
         return response.redirect(`/elections/${request.params.id}/`);
       }
       const option = await Choices.getOption(request.params.optionID);
@@ -833,7 +833,7 @@ app.get(
   (request, response) => {
     if (request.user.role === "admin") {  
     response.render("Create-Voter", {
-      title: "Add a voter to election",
+      title: "add voter to the election",
       EID: request.params.EID,
       csrfToken: request.csrfToken(),
     });
@@ -857,7 +857,7 @@ app.post(
       );
     }
     if (!request.body.Password) {
-      request.flash("error", "Please enter password");
+      request.flash("error", "Please enter correct password");
       return response.redirect(
         `/elections/${request.params.EID}/voters/create`
       );
@@ -873,7 +873,7 @@ app.post(
         `/elections/${request.params.EID}/voters`
       );
     } catch (error) {
-      request.flash("error", "voter id is already used");
+      request.flash("error", "Voter id is already created");
       return response.redirect(
         `/elections/${request.params.EID}/voters/create`
       );
@@ -912,7 +912,7 @@ app.get(
   (request, response) => {
     if (request.user.role === "admin") {
     response.render("resetpass-voter", {
-      title: "Reset voter password",
+      title: "reset voter password",
       EID: request.params.EID,
       voterID: request.params.voterID,
       csrfToken: request.csrfToken(),
@@ -931,7 +931,7 @@ app.post(
   async (request, response) => {
     if (request.user.role === "admin") { 
     if (!request.body.new_password) {
-      request.flash("error", "Please enter a new password");
+      request.flash("error", "Please Enter New Password");
       return response.redirect("/reset-password");
     }
     if (request.body.new_password.length < 5) {
@@ -946,7 +946,7 @@ app.post(
       Voters.findOne({ where: { id: request.params.voterID } }).then((user) => {
         user.passwordreset(hashedNewPwd);
       });
-      request.flash("success", "Password changed successfully");
+      request.flash("success", "Successfully changed the password");
       return response.redirect(
         `/elections/${request.params.EID}/voters`
       );
@@ -977,11 +977,11 @@ app.get(
         if (question_options.length < 2) {
           request.flash(
             "error",
-            "There should be atleast two options in each question"
+            "There should be atleast 2 options for the question"
           );
           request.flash(
             "error",
-            "Please add atleast two options to the question below"
+            "Please add atleast two choices to the question "
           );
           return response.redirect(
             `/elections/${request.params.EID}/questions/${questions[question].id}`
@@ -991,7 +991,7 @@ app.get(
       }
 
       if (questions.length < 1) {
-        request.flash("error", "Please add atleast one question in the ballot");
+        request.flash("error", "Please add atleast one question in the election ballot");
         return response.redirect(
           `/elections/${request.params.EID}/questions`
         );
@@ -1036,33 +1036,41 @@ app.put(
   } 
 );
 
-app.get("/e/:customurl/", async (request, response) => {
+app.get("/election/:customurl/", async (request, response) => {
   if (!request.user) {
-    request.flash("error", "Please login before trying to Vote");
-    return response.redirect(`/e/${request.params.customurl}/voter`);
+    request.flash("error", "Please login before trying to vote for the election");
+    return response.redirect(`/election/${request.params.customurl}/voter`);
   }
   try {
     const election = await Election.GetUrl(request.params.customurl);
     if (request.user.role === "voter") {
+      if (election.stopped === false) {
       if (election.launched) {
         const questions = await EQuestion.GetQuestions(election.id);
         let options = [];
         for (let question in questions) {
           options.push(await Choices.getOptions(questions[question].id));
         }
+        const voter = await Voters.findByPk(request.user.id);
+        
         return response.render("votingpage", {
           title: election.ElectionName,
           EID: election.id,
           questions,
           options,
+          verified: true,
+          submitted: voter.Voted,
+          voter: voter,
           csrfToken: request.csrfToken(),
-        });
+        });      
+      
       } else {
         return response.render("error");
       }
-    } else if (request.user.role === "admin") {
-      request.flash("error", "You cannot vote as Admin");
-      request.flash("error", "Please signout as Admin before trying to vote");
+    } 
+   }else if (request.user.role === "admin") {
+      request.flash("error", "sorry admin cannot vote the election");
+      
       return response.redirect(`/elections/${election.id}`);
     }
   } catch (error) {
