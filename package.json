@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon runserver.js",
     "start:prod": "node runserver.js",
-    "test": "NODE_ENV=test jest --detectOpenHandles",
+    "test": "jest",
     "prepare": "husky install"
   },
   "author": "ashish",
