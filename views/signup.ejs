@@ -8,13 +8,13 @@
     <title><%= title %></title>
 </head>
 <body class="bg-gray-50">
-    <div class="relative flex min-h-screen text-gray-100 antialiased flex-col justify-center overflow-hidden bg-sky-100 py-6">
+    <div class="relative flex min-h-screen text-gray-800 antialiased flex-col justify-center overflow-hidden bg-sky-100 py-6">
         <div class="relative sm:w-96 mx-auto text-center">
             <span class="text-2xl font-light ">Create Election Admin Account</span>
             <div>
                 <% if (messages && messages.error && messages.error.length > 0) { %>
                     <% for(var i=0; i<messages.error.length; i++) { %>
-                        <p class="bg-black my-3 list-none rounded-md px-4 py-2"><%= messages.error[i] %></p>
+                        <p class="bg-red-100 my-3 list-none rounded-md px-4 py-2 text-black"><%= messages.error[i] %></p>
                     <% } %>
                 <% } %>
             </div>
