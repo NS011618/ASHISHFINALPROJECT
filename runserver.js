@@ -1,6 +1,5 @@
 const app = require("./app");
 
-
 const port = 3000
 
 //running the server  at  port  number 3000 or any hosted website
