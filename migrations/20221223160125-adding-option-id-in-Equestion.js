@@ -3,6 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
+    //adding the questionid column to choices
     await queryInterface.addColumn("Choices", "QID", {
       type: Sequelize.DataTypes.INTEGER,
     });
@@ -18,6 +19,7 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
+    //removing the questionid column from choices
     await queryInterface.removeColumn("Choices", "QID");
   }
 };
