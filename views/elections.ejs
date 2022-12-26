@@ -71,19 +71,23 @@
         <br>
     <div class="my-6 mx-10 bg-yellow-200 p-4" >
         <div class="flex-auto bg-white/30 p-2">
-            <div class="mx-4">  
+            <div class="mx-4 ">  
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
                 <p class="text-orange-600"><%= (elections.length==0)?"You haven't created any elections yet!":"" %></p>
                 <ol class="list-decimal">
-                    <% for (let i=0; i<elections.length; i++) { %>
+                    
+                    <% for (let i=0; i<elections.length; i++) { %>                     
+                          
                         <li>
                             <div class="flex items-center w-fit my-2 px-2 py-1 rounded hover:bg-white">
                                 <a href="/elections/<%= elections[i].id %>" class="m-2 text-sm text-blue-800"><%= elections[i].ElectionName %></a>
-                            </div>                                                       
-                        </li>
-                                                
+                            </div>                                                                                   
+                        </li>                                                                      
+                                   
                     <% } %>
+                   
                 </ol>
+                
             </div>
         </div>
     </div>
