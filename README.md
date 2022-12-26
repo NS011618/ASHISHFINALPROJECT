@@ -21,8 +21,9 @@ Deployed App link:
 - Uses CSRF tokens to prevent attacks 
 - Admin will be able to signup
 - Admin can create the elections
+- Admin can delete the elections,questions,voters
 - Admin can create a ballot of questions in an election
-- Admin can registervoters
+- Admin can register voters
 - Admin can launch election
 - Elections administrator can set custom path to election
 
