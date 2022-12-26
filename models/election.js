@@ -47,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
       
-    static reomveelection(id) {
+    static deleteElection(id) {
       return this.destroy({
         where: {
           id,

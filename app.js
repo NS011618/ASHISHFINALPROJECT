@@ -379,6 +379,8 @@ app.post(
    
 );
 
+
+
 //Manage Elections Home Page
 app.get(
   "/elections/:id",
@@ -409,7 +411,47 @@ app.get(
   }
   } 
 );
+//Deleting the election
+app.delete(
+  "/elections/:id",
+  connectEnsureLogin.ensureLoggedIn(),
+  async (request, response) => {
+    
+    //const election = await Election.findByPk(request.params.id);
+    
+    
+    const questions = await EQuestion.findAll({
+      where: { EID: request.params.id },
+    });
 
+    // deleting the  questions annd  options  in election
+    questions.forEach(async (Question) => {
+      const options = await Choices.findAll({
+        where: { QID: Question.id },
+      });
+      options.forEach(async (option) => {
+        await Choices.destroy({ where: { id: option.id } });
+      });
+      await EQuestion.destroy({ where: { id: Question.id } });
+    });
+
+    //deleting all voters from  the  election
+    const voters = await Voters.findAll({
+      where: { EID: request.params.id },
+    });
+    voters.forEach(async (voter) => {
+      await Voters.destroy({ where: { id: voter.id } });
+    });
+
+    try {
+      await Election.destroy({ where: { id: request.params.id } });
+      return response.json({ ok: true });
+    } catch (error) {
+      console.log(error);
+      response.send(error);
+    }
+  }
+);
 //Manage Questions Home page
 app.get(
   "/elections/:id/questions",
