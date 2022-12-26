@@ -22,12 +22,12 @@
         <span>></span>
     </div>
     <% if (stop) { %>
-        <!-- Election ended banner -->
+        
         <div class="text-4xl my-4 font-medium bg-purple-100 p-3 uppercase text-center">
           <i class="fa fa-exclamation-triangle"></i> Election Ended
         </div>
       <% } else if (launched) { %>
-        <!-- Election live banner -->
+        
         <div class="text-4xl my-4 font-medium bg-purple-100 p-3 uppercase text-center">
           <i class="fa fa-exclamation-triangle"></i> Election is Live
         </div>
@@ -42,13 +42,19 @@
             </div>
         <% } %>
         <% if (!stop) { %>  
-        <div class="my-8">
-            <h2 class="my-2 text-lg text-black flex gap-1">Your election has <span class="text-blue-700"> <%= TQ %> </span> questions in the ballot</h2>
-            <a href="/elections/<%= id %>/questions" class="py-1 hover:text-orange-800 text-red-600">Manage questions</a>
+        <div class="my-8 ">   
+            <div class="bg-blue-200 rounded w-fit px-4 py-1 hover:bg-sky-600 ease-linear transition-all duration-150 ">
+                <a href="/elections/<%= id %>/questions" class="py-1 hover:text-white text-black">Manage questions</a>
+            </div>         
+            <h2 class="my-2 text-lg text-black flex gap-1">Your election has <span class="text-blue-700"> <%= TQ %> </span> questions in the ballot</h2>  
+                      
         </div>
-        <div class="my-8">
+        <div class="my-8  ">
+            <div class="bg-blue-200 rounded w-fit px-4 py-1 hover:bg-sky-600 ease-linear transition-all duration-150">
+                <a href="/elections/<%= id %>/voters" class="py-1 hover:text-white text-black">Manage voters</a>
+            </div>            
             <h2 class="my-2 text-lg text-black flex gap-1">Your election has <span class="text-blue-700"> <%= NV %> </span> registered voters.</h2>
-            <a href="/elections/<%= id %>/voters" class="py-1 hover:text-orange-800 text-red-600">Manage voters</a>
+                       
         </div>
         <% } %>
         <% if (!stop) { %><% if (!launched) { %>            
