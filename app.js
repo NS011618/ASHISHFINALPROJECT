@@ -379,53 +379,6 @@ app.post(
    
 );
 
-/* delete election
-app.delete(
-  "/election/:id",
-  connectEnsureLogin.ensureLoggedIn(),
-  async (request, response) => {
-    const adminID = request.user.id;
-    const election = await Election.findByPk(request.params.id);
-
-    if (adminID !== election.adminID) {
-      console.log("You are not authorized to perform this operation");
-      return response.redirect("/home");
-    }
-
-    
-    const questions = await question.findAll({
-      where: { electionID: request.params.id },
-    });
-
-    
-    questions.forEach(async (Question) => {
-      const options = await Option.findAll({
-        where: { questionID: Question.id },
-      });
-      options.forEach(async (option) => {
-        await Option.destroy({ where: { id: option.id } });
-      });
-      await question.destroy({ where: { id: Question.id } });
-    });
-
-  
-    const voters = await Voter.findAll({
-      where: { electionID: request.params.id },
-    });
-    voters.forEach(async (voter) => {
-      await Voter.destroy({ where: { id: voter.id } });
-    });
-
-    try {
-      await Election.destroy({ where: { id: request.params.id } });
-      return response.json({ ok: true });
-    } catch (error) {
-      console.log(error);
-      response.send(error);
-    }
-  }
-);*/
-
 //Manage Elections Home Page
 app.get(
   "/elections/:id",
