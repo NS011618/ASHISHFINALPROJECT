@@ -26,23 +26,51 @@
           .catch((err) => console.log(err));
         }
 </script>
-<body class="bg-gray-50">
-    <%- include('header.ejs') %>
-    <div class="my-6 mx-10">
-        <h3 class="text-4xl my-4 font-medium">Hello, <%= Electionuser %></h3>
+<style>
+    body{
+        background:url("images/elect.jpeg");
+        background-size: cover;  
+        background-repeat: no-repeat";
+        
+    }
+</style>
+<body class="bg-gray-50" >
+    <nav class="p-6 bg-orange-300">
+        <div class="container flex flex-wrap items-center justify-between mx-auto bg-white/30 p-4">
+          <a href="/" class="flex items-center">
+            <span class="self-center text-xl font-semibold whitespace-nowrap text-black  ">Voting System</span>
+          </a>
+          <div class="w-auto">
+            <ul class="flex">
+              <li>
+                <a href="/reset-password" class="block px-4 text-black rounded ">Reset password</a>
+              </li>
+              <li>
+                <a href="/signout" class="block px-4 text-black rounded">Log out</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+    </nav>
+    <div class="my-6 mx-10 bg-violet-200 w-fit" >
+        <h3 class="text-3xl my-4 font-medium bg-white/30 p-2">Hello, <%= Electionuser %></h3>
         <div>
             <% if (messages.success) { %>
                 <p class="bg-orange-100 m-3 list-none rounded-md px-4 py-2"><%= messages.success %></p>
             <% } %>
         </div>
-        <div class="flex gap-2 py-4 justify-between">
-            <h5 class="text-2xl">Your Elections</h5>
-            <div class="bg-black rounded w-fit px-2 py-1 hover:bg-black">
+    </div>
+    <div class="my-6 mx-10 bg-green-100 p-4" >
+        <div class="flex gap-2 py-4 justify-between bg-gray-200 p-2">
+            <h5 class="text-2xl bg-white/30 ">Your Elections</h5>
+            <div class="bg-black rounded w-fit px-2 py-1 hover:bg-black ">
                 <a href="/elections/new" class="text-white">ADD  NEW  ELECTION</a>
             </div>
         </div>
-        
-        <div class="flex-auto">
+    </div>
+        <br>
+    <div class="my-6 mx-10 bg-yellow-200 p-4" >
+        <div class="flex-auto bg-white/30 p-2">
             <div class="mx-4">  
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
                 <p class="text-orange-600"><%= (elections.length==0)?"You haven't created any elections yet!":"" %></p>
@@ -50,10 +78,10 @@
                     <% for (let i=0; i<elections.length; i++) { %>
                         <li>
                             <div class="flex items-center w-fit my-2 px-2 py-1 rounded hover:bg-white">
-                                <a href="/elections/<%= elections[i].id %>" class="m-2 text-sm text-blue-800 "><%= elections[i].ElectionName %></a>
+                                <a href="/elections/<%= elections[i].id %>" class="m-2 text-sm text-blue-800"><%= elections[i].ElectionName %></a>
                             </div>                                                       
                         </li>
-                        
+                                                
                     <% } %>
                 </ol>
             </div>
