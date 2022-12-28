@@ -25,8 +25,8 @@ module.exports = (sequelize, DataTypes) => {
         votername,
         Password,
         EID,
-        voted: false,
-        values: [],
+        Voted: false,
+        
       });
     }
 
@@ -76,19 +76,7 @@ module.exports = (sequelize, DataTypes) => {
       );
       
     }
-
-    static async addvoterresp(id, values) {
-        return await this.update(
-        {
-          values: values,
-        },
-        {
-          where: {
-            id: id,
-          },
-        });
-      
-    }
+    
   }
   Voters.init({
     votername: {
@@ -108,9 +96,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false,
-    }, 
-     
-    values: DataTypes.ARRAY(DataTypes.INTEGER),
+    },     
   }, {
     sequelize,
     modelName: 'Voters',
