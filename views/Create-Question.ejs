@@ -8,18 +8,37 @@
     <title>New question</title>
 </head>
 <body class="bg-gray-50">
-    <%- include('header.ejs') %>
-    <div class="flex gap-1 mx-10 mt-6 bg-gray-50">
+    <nav class="p-3 bg-sky-100 shadow-md">
+        <div class="container flex flex-wrap items-center justify-between mx-auto bg-white/30 p-3">
+          <a href="/" class="flex items-center">
+            <span class="self-center text-xl font-medium font-light whitespace-nowrap text-black  ">Voting System</span>
+          </a>
+          <div class="w-auto">
+            <ul class="flex">
+              <li>
+                <a href="/reset-password" class="block px-4 text-black rounded ">Reset password</a>
+              </li>
+              <li>
+                <a href="/signout" class="block px-4 text-black rounded">Log out</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    <div class="flex gap-1 bg-white shadow-md w-fit p-3 mx-10 mt-6 bg-gray-50">
         
-        <a href="/elections" class="text-purple-800 hover:text-purple-600">All Elections</a>
-        <span>></span>
-        <a href="/elections/<%= id %>/" class="text-purple-800 hover:text-purple-600">Election</a>
-        <span>></span>
-        <a href="/elections/<%= id %>/questions" class="text-purple-800 hover:text-purple-600">Questions</a>
+        <a href="/elections" class="text-black hover:text-sky-600 text-xl font-medium font-light">All Elections</a>
+        <span class="text-black hover:text-sky-600 text-xl font-medium font-light">></span>
+        <a href="/elections/<%= id %>/" class="text-black hover:text-sky-600 text-xl font-medium font-light">Election</a>
+        <span class="text-black hover:text-sky-600 text-xl font-medium font-light">></span>
+        <a href="/elections/<%= id %>/questions" class="text-black hover:text-sky-600 text-xl font-medium font-light">Questions</a>
     </div>
-    <div class=" flex text-gray-800 antialiased flex-col  overflow-hidden bg-gray-50 py-6 sm:py-12">
-        <div class=" py-3 sm:w-96 mx-auto text-center">
-            <span class="text-2xl font-light ">Add a new Question</span>
+    <div class=" flex text-gray-800 antialiased flex-col  overflow-hidden bg-gray-50 py-2 sm:py-12">
+        <div class="sm:w-96 mx-auto text-center">
+            <div class="mt-4 bg-white shadow-md rounded-lg p-3 uppercase ">
+                <span class="text-2xl font-medium font-light text-center">Add a new Question</span>          
+            </div>
+            
             <div>
                 <% if (messages && messages.error && messages.error.length > 0) { %>
                     <% for(var i=0; i<messages.error.length; i++) { %>
@@ -31,11 +50,11 @@
                
                 <form action="/elections/<%= id %>/questions/create" method="post" class="px-8 py-6">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-                    <label for="QuestionName" class="block mt-3 font-semibold">What is the question?</label>
+                    <label for="QuestionName" class="block mt-3 bg-gray-50 shadow-md text-1xl font-medium  uppercase p-2">What is the question?</label>
                     <input id="QuestionName" name="QuestionName" type="text" placeholder="Question" class="border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-indigo-500 focus:ring-1 rounded-md" required>
-                    <label for="Description" class="block mt-3 font-semibold">Description</label>
+                    <label for="Description" class="block mt-3 bg-gray-50 shadow-md text-1xl font-medium  uppercase p-2">Description</label>
                     <textarea id="Description" name="Description" class="border w-full px-2 py-1 mt-2 hover:outline-none focus:outline-none focus:ring-indigo-500 focus:ring-1 rounded-md" placeholder="Description" rows="4" cols="20"></textarea>
-                    <button type="submit" class="mt-6 w-full bg-black text-white py-2 px-6 rounded-md hover:bg-white hover:text-black ">Add question</button>
+                    <button type="submit" class="mt-6 w-full bg-gray-50 shadow-md text-black text-2xl font-medium font-light py-1 px-6 rounded-md hover:bg-black hover:text-white uppercase">Add question</button>
                 </form>
             </div>
         </div>
