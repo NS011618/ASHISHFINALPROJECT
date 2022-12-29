@@ -25,7 +25,7 @@
           </div>
         </div>
       </nav>
-    <div class="flex gap-1 bg-white shadow-md w-fit p-3 mx-10 mt-6 bg-gray-50">
+    <div class="flex gap-1 bg-gray-100 shadow-md w-fit p-3 mx-10 mt-6 bg-gray-50">
         
         <a href="/elections" class="text-black hover:text-sky-600 text-xl font-medium font-light">All Elections</a>
         <span class="text-black hover:text-sky-600 text-xl font-medium font-light">></span>
@@ -35,7 +35,7 @@
     </div>
     <div class=" flex text-gray-800 antialiased flex-col  overflow-hidden bg-gray-50 py-2 sm:py-12">
         <div class="sm:w-96 mx-auto text-center">
-            <div class="mt-4 bg-white shadow-md rounded-lg p-3 uppercase ">
+            <div class="mt-4 bg-gray-100 shadow-md rounded-lg p-3 uppercase ">
                 <span class="text-2xl font-medium font-light text-center">Add a new Question</span>          
             </div>
             
@@ -46,7 +46,7 @@
                     <% } %>
                 <% } %>
             </div>
-            <div class="mt-4 bg-white shadow-md rounded-lg text-left">
+            <div class="mt-4 bg-gray-100 shadow-md rounded-lg text-left">
                
                 <form action="/elections/<%= id %>/questions/create" method="post" class="px-8 py-6">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
