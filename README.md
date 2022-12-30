@@ -2,7 +2,9 @@
 
 **The Project i have done is **
 # Online Voting System
-This is a Online Voting Platform built using Node.js ,Postgresql,Tailwincss,Express.js which allows election administrators to sign up and create multiple elections. You can create ballots of multiple questions,add voters for particular election,reset password feature is available for both election admin and voter,create a custom public URL for the election... etc..
+This is a Online Voting Platform built using Node.js ,Postgresql,Tailwincss,Express.js which allows election administrators to sign up and 
+create multiple elections. You can create ballots of multiple questions,add options to question,add voters for particular election,reset 
+password feature is available for both election admin and voter,create a custom public URL for the election... etc..
 
 
 
@@ -21,18 +23,19 @@ Deployed App link:
 - Uses CSRF tokens to prevent attacks 
 - Admin will be able to signup
 - Admin can create the elections
-- Admin can delete the elections,questions,voters
 - Admin can create a ballot of questions in an election
+- Admin can add options and delete options for a question in the election
+- Admin can delete the elections,questions,voters
 - Admin can register voters
 - Admin can launch election
 - Elections administrator can set custom path to election
 
 
-## Tech Stack
+## Technologies used to build the website
 
-**Client:** EJS, TailwindCSS
+**Client:** EJS(Embedded Javascript Templates), TailwindCSS,CSS
 
-**Server:** Node, Express
+**Server:** Node.js, Express.js
 
 **Database:** Postgres
 
