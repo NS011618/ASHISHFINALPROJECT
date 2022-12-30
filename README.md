@@ -12,6 +12,8 @@ password feature is available for both election admin and voter,create a custom 
 
 Deployed App link: 
 
+https://final-project-wd-11.onrender.com
+
 ## Demo link
 
 
@@ -21,7 +23,7 @@ Deployed App link:
 - Fully Responsive platform
 - reset password feature for both admin and voter
 - Uses CSRF tokens to prevent attacks 
-- Admin will be able to signup
+- Admin will be able to signup,Login
 - Admin can create the elections
 - Admin can create a ballot of questions in an election
 - Admin can add options and delete options for a question in the election
