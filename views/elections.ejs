@@ -31,7 +31,7 @@
  }  
 </style>
 <body class="bg-gray-50 " >
-    <nav class="p-4 bg-orange-200 shadow-md hover:bg-gray-200">
+    <nav class="p-4 bg-orange-100 shadow-md hover:bg-gray-200">
         <div class="container flex flex-wrap items-center justify-between mx-auto bg-orange-200 hover:bg-gray-200 p-1">
           <a href="/" class="flex items-center" id="one">
             <span class="self-center text-xl font-semibold whitespace-nowrap text-black font-light bg-sky-200 shadow-md p-2 uppercase hover:text-white hover:bg-black">Voting System</span>
@@ -57,34 +57,34 @@
             <% } %>
         </div>
     </div>
-    <div class="my-6 mx-10  p-4" >
-        <div class="flex gap-2 py-4 bg-orange-200 shadow-md justify-between px-4 p-2">
+    <div class="my-6 mx-10  p-3  bg-gray-200" >
+        <div class="flex gap-2 py-4 bg-gray-100 shadow-md justify-between px-4 p-1">
             <h5 class="text-2xl bg-sky-200 p-1 shadow-md rounded w-fit  uppercase font-light">Your Elections</h5>
-            <div class=" bg-sky-200 p-1 shadow-md rounded w-fit px-2 py-2 hover:bg-black ">
+            <div class=" bg-sky-200 p-1 shadow-md rounded w-fit px-2 py-2 hover:bg-green-200 ">
                 <a href="/elections/new" class="text-black">ADD  NEW  ELECTION</a>
             </div>
         </div>
     </div>
         <br>
-    <div class="my-6 mx-10  p-2" >
+    <div class="my-6 mx-10  p-2  bg-orange-100 >
         <div class="flex-auto bg-white/30 p-2">
             <div class="mx-4 ">  
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-                <p class="text-orange-600"><%= (elections.length==0)?"You haven't created any elections yet!":"" %></p>
+                <p class="text-black"><%= (elections.length==0)?"You haven't created any elections yet!":"" %></p>
                 <ol class="list-decimal">
                     
                     <% for (let i=0; i<elections.length; i++) { %>                     
                           
                         <li>
-                            <div class="flex justify-between items-center bg-blue-100 w-full my-2 px-2 py-1 rounded ">
-                                <div class="flex items-center w-fit my-2 px-2 py-1 rounded hover:bg-orange-300">
-                                    <a href="/elections/<%= elections[i].id %>" class="m-2 text-sm text-blue-800"><%= elections[i].ElectionName %></a>
+                            <div class="flex justify-between items-center bg-gray-200 shadow-md w-full my-2 px-2 py-1 rounded p-1">
+                                <div class="flex items-center w-fit my-2 p-1 px-4   uppercase font-light bg-sky-200 py-1 shadow-md rounded hover:bg-orange-300">
+                                    <a href="/elections/<%= elections[i].id %>" class="m-2 text-m text-blue-800"><%= elections[i].ElectionName %></a>
                                  </div> 
-                                <div class="rounded w-fit px-2 py-1 flex gap-2 text-black cursor-pointer hover:text-black">
+                                <div class="rounded w-fit px-4  p-1 py-1 flex gap-2  uppercase font-light bg-sky-100 shadow-md text-black cursor-pointer hover:text-black">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mt-1">
                                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                                     </svg>                                      
-                                    <a onclick="deleteElection('<%= elections[i].id %>')" class="text-sm">Delete election</a>
+                                    <a onclick="deleteElection('<%= elections[i].id %>')" class="text-m">Delete election</a>
                                 </div>  
                             </div>                                                                                
                         </li>   
