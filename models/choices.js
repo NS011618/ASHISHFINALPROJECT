@@ -14,9 +14,6 @@ module.exports = (sequelize, DataTypes) => {
       Choices.belongsTo(models.EQuestion, {
         foreignKey: "QID",
       });
-      Choices.hasMany(models.voteresponse, {
-        foreignKey: "choice",
-      });
     }
     static getOptions(QID) {
       return this.findAll({

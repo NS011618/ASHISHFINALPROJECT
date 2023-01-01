@@ -14,9 +14,6 @@ module.exports = (sequelize, DataTypes) => {
       Voters.belongsTo(models.Election, {
         foreignKey: "EID",
       });
-      Voters.hasMany(models.voteresponse, {
-        foreignKey: "voterID",
-      });
     }
     
     passwordreset(Password) {

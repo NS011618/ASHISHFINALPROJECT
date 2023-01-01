@@ -3,18 +3,6 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-     //adding the voter id to voteresponses table
-     await queryInterface.addColumn("voteresponses", "voterID", {
-      type: Sequelize.DataTypes.INTEGER,
-    });
-    await queryInterface.addConstraint("voteresponses", {
-      fields: ["voterID"],
-      type: "foreign key",
-      references: {
-        table: "Voters",
-        field: "id",
-      },
-    });
      //adding the election id to voteresponses table
     await queryInterface.addColumn("voteresponses", "EID", {
       type: Sequelize.DataTypes.INTEGER,
@@ -26,7 +14,20 @@ module.exports = {
         table: "Elections",
         field: "id",
       },
-    }); 
+    });
+     //adding the voter id to voteresponses table
+    await queryInterface.addColumn("voteresponses", "voterID", {
+      type: Sequelize.DataTypes.INTEGER,
+    });
+    await queryInterface.addConstraint("voteresponses", {
+      fields: ["voterID"],
+      type: "foreign key",
+      references: {
+        table: "Voters",
+        field: "id",
+      },
+    });
+
     //adding the question id to voteresponses table
     await queryInterface.addColumn("voteresponses", "QID", {
       type: Sequelize.DataTypes.INTEGER,
