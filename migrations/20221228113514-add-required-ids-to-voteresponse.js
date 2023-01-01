@@ -57,10 +57,10 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    //removing the election id column from voteresponses table
-    await queryInterface.removeColumn("voteresponses", "EID");
     //removing the voter id column from voteresponses table
     await queryInterface.removeColumn("voteresponses", "voterID");
+    //removing the election id column from voteresponses table
+    await queryInterface.removeColumn("voteresponses", "EID");    
     //removing the question id column from voteresponses table
     await queryInterface.removeColumn("voteresponses", "QID");
     //removing the choice column from voteresponses table
