@@ -29,10 +29,12 @@
         }
     </script>
 </head>
-<body class="bg-gray-50">
-    <div class="relative flex min-h-screen text-gray-800 antialiased flex-col justify-center overflow-hidden bg-gray-50 py-6 sm:py-12">
+<body class="bg-orange-50">
+    <div class="relative flex min-h-screen text-gray-800 antialiased flex-col justify-center overflow-hidden bg-blue-200 py-6 sm:py-12">
         <div class="relative py-3 sm:w-96 mx-auto text-center">
-            <span class="text-2xl font-light ">Edit Option For The Question</span>
+            <div class="mt-4 bg-gray-100 shadow-md rounded-lg p-3 uppercase ">
+                <span class="text-2xl font-medium font-light text-center">Edit Option For The Question</span>
+            </div>
             <div>
                 <% if (messages && messages.error && messages.error.length > 0) { %>
                     <% for(var i=0; i<messages.error.length; i++) { %>
@@ -40,13 +42,13 @@
                     <% } %>
                 <% } %>
             </div>
-            <div class="mt-4 bg-white shadow-md rounded-lg text-left">
+            <div class="mt-4 bg-gray-100 shadow-md rounded-lg text-left">
                
                 <div class="px-8 py-6">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-                    <label for="option" class="block mt-3 font-semibold">Option</label>
+                    <label for="option" class="block mt-3  bg-gray-50 shadow-md text-1xl font-medium  uppercase p-2">Option</label>
                     <input value="<%= option %>" id="option" name="option" type="text" placeholder="Option" class="border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-indigo-500 focus:ring-1 rounded-md" required>
-                    <button class="mt-6 w-full bg-purple-500 text-white py-2 px-6 rounded-md hover:bg-purple-600 " onclick="updateOption()">Update option</button>
+                    <button class="mt-6 w-full bg-gray-50 shadow-md text-black text-2xl font-medium font-light py-1 px-6 rounded-md hover:bg-black hover:text-white uppercase " onclick="updateOption()">Update option</button>
                 </div>
             </div>
         </div>
