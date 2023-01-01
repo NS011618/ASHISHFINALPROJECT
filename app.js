@@ -1030,7 +1030,7 @@ app.put(
   }
   } 
 );
-
+//going to voter page
 app.get("/election/:customurl/", async (request, response) => {
   if (!request.user) {
     request.flash("error", "Please login before trying to vote for the election");

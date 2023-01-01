@@ -17,6 +17,9 @@ module.exports = (sequelize, DataTypes) => {
       EQuestion.hasMany(models.Choices, {
         foreignKey: "QID",
       });
+      EQuestion.hasMany(models.voteresponse, {
+        foreignKey: "QID",
+      });
     }
 
     static async CountQuestions(EID) {
