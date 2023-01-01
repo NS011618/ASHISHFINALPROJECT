@@ -27,13 +27,13 @@
 </head>
 <body class="bg-gray-50">
     <%- include('header.ejs') %>
-    <div class="flex gap-1 mx-10 mt-6 bg-gray-50">
+    <div class="flex gap-1 bg-blue-300 shadow-md w-fit p-3 mx-10 mt-6 bg-gray-50">
         
-        <a href="/elections" class="text-sky-800 hover:text-sky-600">Home</a>
-        <span>></span>
-        <a href="/elections/<%= id %>/" class="text-sky-800 hover:text-sky-600">Election</a>
-        <span>></span>
-        <a href="/elections/<%= id %>/questions" class="text-sky-800 hover:text-sky-600">Questions</a>
+        <a href="/elections" class="text-black hover:text-sky-600 text-xl font-medium font-light">Home</a>
+        <span class="text-black hover:text-sky-600 text-xl font-medium font-light">></span>
+        <a href="/elections/<%= id %>/" class="text-black hover:text-sky-600 text-xl font-medium font-light">Election</a>
+        <span class="text-black hover:text-sky-600 text-xl font-medium font-light">></span>
+        <a href="/elections/<%= id %>/questions" class="text-black hover:text-sky-600 text-xl font-medium font-light">Questions</a>
     </div>
     <div class="grid grid-cols-6">
         <div class="col-start-2 col-span-4">
