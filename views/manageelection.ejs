@@ -59,7 +59,7 @@
                 <a href="/election/<%= customurl %>/" class="py-1 hover:text-purple-800 text-purple-600">https://localhost:3000/election/<%= customurl %></a>
             </div>
         <% } %>
-        <% if (!stopped) { %>  
+         
         <div class="my-8 "> 
             <% if (!launched) { %>  
             <div class="bg-blue-200 rounded w-fit px-4 py-1 hover:bg-sky-600 ease-linear transition-all duration-150 ">
@@ -76,7 +76,7 @@
             <h2 class="my-2 text-lg text-black flex gap-1">Your election has <span class="text-blue-700"> <%= NV %> </span> registered voters.</h2>
                        
         </div>
-        <% } %>
+        
         <% if (!launched) { %>            
             <div class="bg-red-800 rounded w-fit px-4 py-1 hover:bg-blue-600">
                 <a href="/elections/<%= id %>/checkbeforelaunch" class="text-white">Launch election</a>
