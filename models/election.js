@@ -24,11 +24,12 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "EID",
       });
     }
-    static createElection({ ElectionName, AID,customurl }) {
+    static createElection({ ElectionName,customurl, AID }) {
       return this.create({
-          ElectionName,        
-          AID,
-          customurl
+          ElectionName,  
+          customurl,      
+          AID
+          
       });
     }
     
