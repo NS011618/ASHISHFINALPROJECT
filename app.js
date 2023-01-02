@@ -123,14 +123,11 @@ passport.deserializeUser((id, done) => {
   }
 });
 
-
-
-
 //setting up viewengine as ejs and using dirname
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 
-//The Online Voting System Code starts Now
+//The Online Voting System
 
 //Home Page
 app.get("/", (request, response) => {
