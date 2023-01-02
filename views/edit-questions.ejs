@@ -14,7 +14,7 @@
             let QID = <%= QID %>;
             let QuestionName = document.getElementById("QuestionName").value;
             let Description = document.getElementById("Description").value;
-            fetch(`/elections/${EID}/questions/${QID}/edit`, {
+            fetch(`/questions/${QID}/edit`, {
                 method: "put",
                 headers: {"Content-Type":"application/json"},
                 body: JSON.stringify({
