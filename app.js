@@ -300,42 +300,6 @@ app.post(
     }
   } 
 );
-//voter login page
-app.get("/election/:customurl/voter", (request, response) => {
-  try {
-    if (request.user) {
-      return response.redirect(`/election/${request.params.customurl}`);
-    }
-    const election = Election.GetUrl(request.params.customurl);
-    if (election.launched && !election.stopped) {
-      return response.render("voterlogin", {
-        title: "Voter login",
-        customurl: request.params.customurl,
-        EID: election.id,
-        csrfToken: request.csrfToken(),
-      });
-    } else {
-      request.flash("Election Ended");
-      return response.render("result");
-    }
-  } catch (error) {
-    console.log(error);
-    return response.status(422).json(error);
-  }
-});
-
-//login voter
-app.post(
-  "/election/:customurl/voter",
-  passport.authenticate("voterlocal", {
-    failureFlash: true,
-    failureRedirect: "back",
-  }),
-  async (request, response) => {
-    return response.redirect(`/election/${request.params.customurl}`);
-  }
-);
-
 
 //creating a new election
 app.get(
@@ -1198,7 +1162,7 @@ app.put(
           return response.json("cannot end election since election not launched");
         }
         const electionend = await Election.EndElection(
-          request.params.EID
+          request.params.EID          
         );
         return response.json(electionend);
       } catch (error) {
@@ -1211,6 +1175,41 @@ app.put(
   }
 );
 
+//voter login page
+app.get("/election/:customurl/voter", (request, response) => {
+  try {
+    if (request.user) {
+      return response.redirect(`/election/${request.params.customurl}`);
+    }
+    const election = Election.GetUrl(request.params.customurl);
+    if (election.launched && !election.stopped) {
+      return response.render("voterlogin", {
+        title: "Voter login",
+        customurl: request.params.customurl,
+        EID: election.id,
+        csrfToken: request.csrfToken(),
+      });
+    } else {
+      request.flash("Election Ended");
+      return response.render("result");
+    }
+  } catch (error) {
+    console.log(error);
+    return response.status(422).json(error);
+  }
+});
+
+//login voter
+app.post(
+  "/election/:customurl/voter",
+  passport.authenticate("voterlocal", {
+    failureFlash: true,
+    failureRedirect: "back",
+  }),
+  async (request, response) => {
+    return response.redirect(`/election/${request.params.customurl}`);
+  }
+);
 
 //going to voter page
 app.get("/election/:customurl/", async (request, response) => {
@@ -1306,10 +1305,7 @@ app.get("/election/:customurl/results", async (request, response) => {
       }
       return response.render("result");
     } else if (request.user.role === "admin") {
-      if (request.user.id !== election.AID) {
-        request.flash("error", "Election ID");
-        return response.redirect("/elections");
-      }
+      
       return response.render("result");
     }
   } catch (error) {
