@@ -31,6 +31,8 @@ https://final-project-wd-11.onrender.com
 - Admin can register voters
 - Admin can launch election
 - Elections administrator can set custom path to election
+- Ending the election
+
 
 
 
