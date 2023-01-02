@@ -1227,7 +1227,7 @@ app.get("/election/:customurl/", async (request, response) => {
       return response.redirect(`/elections/${request.params.id}/result`);
     }
     if (request.user.role === "voter") {
-      if (election.running) {
+      if (election.launched) {
         const questions = await EQuestion.GetQuestions(election.id);
         let options = [];
         for (let question in questions) {
