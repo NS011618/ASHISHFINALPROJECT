@@ -32,8 +32,7 @@
         <a href="/elections/<%= id %>/" class="text-black hover:text-sky-600 text-xl font-medium font-light">Election</a>
     </div>
     <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-    <div class="my-6 mx-10">
-        
+    <div class="my-6 mx-10">        
         <div class="text-4xl my-4 font-medium shadow-md bg-blue-100 p-3 uppercase text-center">
             <h5 class="text-2xl"><%= title %> - Voters</h5>            
         </div>
@@ -54,9 +53,7 @@
                     </div>
                     <div class="col-start-2 col-span-10 border">            
                         <p class="py-2 px-1 font-medium text-1xl text-center"><%=(voters.length>0)?"Voter ID":"" %></p> 
-                                         
                     </div>
-                    
                     <div class="col-start-12 col-span-1 border">            
                         <p class="py-2 px-1 font-medium text-1xl text-center"><%=(voters.length>0)?"Reset Password":"" %></p>                       
                     </div>
@@ -65,9 +62,9 @@
                             <p class="py-2 px-1 font-medium  text-1xl text-center"><%=(voters.length>0)?"Delete Voter":"" %></p>                       
                         </div>
                     <% } %>
-                   
+                </div>   
                 <% } %>
-                </div>
+                
                 <div class="grid grid-cols-17 gap-0 border text-black bg-white/30 p-2">
                     <ol class="list-decimal">
                         <% for (let i=0; i<voters.length; i++) { %>

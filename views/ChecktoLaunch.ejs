@@ -9,7 +9,7 @@
     <title><%= title %></title>
     <script>
         var token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
-        function Electionlaunch() {
+        function Launchelection() {
             let EID = <%= EID %>;
             fetch(`/elections/${EID}/launch`, {
                 method: "put",
@@ -43,7 +43,7 @@
                     <div class="bg-black border border-purple-700 text-white rounded w-fit px-4 pt-2 hover:text-white hover:bg-yellow-600 mx-2 ease-linear transition-all duration-150">
                         <a href="/elections/<%= EID %>/">Edit election</a>
                     </div>
-                    <button onclick="Electionlaunch()" class="text-white bg-red-800 rounded w-fit px-4 hover:bg-blue-600 ml-2 ease-linear transition-all duration-150">
+                    <button onclick="Launchelection()" class="text-white bg-red-800 rounded w-fit px-4 hover:bg-blue-600 ml-2 ease-linear transition-all duration-150">
                         Launch election
                     </button>
                 </div>

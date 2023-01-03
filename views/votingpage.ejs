@@ -35,7 +35,7 @@
                 <div class="divide-y divide-solid">
                     <h2 class="px-4 py-2 text-2xl font-light ">Answer the below questions</h2>
                     <div class="pb-2 px-8">
-                        <form action="/election/<%= customurl %>" class="divide-y divide-solid" method="post">
+                        <form action="/election/<%= customurl %>" method="post" class="divide-y divide-solid">
                             <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
                             <ol class="list-decimal mb-5">
                                 <% for(let i=0; i<questions.length; i++) { %>
@@ -48,7 +48,7 @@
                                             <ol class="list-none">
                                                 <% for(let j=0; j<options[i].length; j++) { %>
                                                         <li class="option-item mt-2 cursor-pointer">
-                                                            <input type="radio" id="<%= options[i][j].id %>" class="cursor-pointer" name="Q-<%= questions[i].id %>" value="<%= options[i][j].id %>">
+                                                            <input type="radio" id="<%= options[i][j].id %>" class="cursor-pointer" name="q-<%= questions[i].id %>" value="<%= options[i][j].id %>">
                                                             <label class="px-1 my-2 cursor-pointer" for="<%= options[i][j].id %>" class="ml-2 text-lg "><%= options[i][j].option %></label>
                                                         </li>
                                                 <% } %>
