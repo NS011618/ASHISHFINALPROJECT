@@ -32,6 +32,9 @@ https://final-project-wd-11.onrender.com
 - Admin can launch election
 - Elections administrator can set custom path to election
 - Ending the election
+- We cannot delete election after ending election
+- We cannot edit questions after launching election
+- We cannot edit questions,voters,options etc... after ending an election
 
 
 
