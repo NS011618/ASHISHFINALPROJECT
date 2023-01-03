@@ -73,8 +73,8 @@ describe("Online voting application", function () {
     const res = await agent.get("/elections/new");
     const csrfToken = extractCsrfToken(res);
     const response = await agent.post("/elections").send({
-      ElectionName: "Test election",
-      customurl: "test1",
+      ElectionName: "select cr",
+      customurl: "vote",
       _csrf: csrfToken,
     });
     expect(response.statusCode).toBe(302);
@@ -88,7 +88,7 @@ describe("Online voting application", function () {
     let res = await agent.get("/elections/new");
     let csrfToken = extractCsrfToken(res);
     await agent.post("/elections").send({
-      ElectionName: "Test election",
+      ElectionName: "select cr",
       customurl: "test2",
       _csrf: csrfToken,
     });
@@ -96,17 +96,17 @@ describe("Online voting application", function () {
       .get("/elections")
       .set("Accept", "application/json");
     const parsedGroupedResponse = JSON.parse(groupedElectionsResponse.text);
-    const electionCount = parsedGroupedResponse.elections.length;
-    const latestElection = parsedGroupedResponse.elections[electionCount - 1];
+    const totalelection = parsedGroupedResponse.elections.length;
+    const newelection = parsedGroupedResponse.elections[totalelection - 1];
 
     //adding question to elections
-    res = await agent.get(`/elections/${latestElection.id}/questions/create`);
+    res = await agent.get(`/elections/${newelection.id}/questions/create`);
     csrfToken = extractCsrfToken(res);
     let response = await agent
-      .post(`/elections/${latestElection.id}/questions/create`)
+      .post(`/elections/${newelection.id}/questions/create`)
       .send({
-        QuestionName: "Test question",
-        Description: "Test description",
+        QuestionName: "who is cr",
+        Description: "choose from option",
         _csrf: csrfToken,
       });
     expect(response.statusCode).toBe(302);
@@ -120,7 +120,7 @@ describe("Online voting application", function () {
     let res = await agent.get("/elections/new");
     let csrfToken = extractCsrfToken(res);
     await agent.post("/elections").send({
-      ElectionName: "Test election",
+      ElectionName: "select cr",
       customurl: "test3",
       _csrf: csrfToken,
     });
@@ -130,52 +130,52 @@ describe("Online voting application", function () {
     const parsedGroupedElectionsResponse = JSON.parse(
       groupedElectionsResponse.text
     );
-    const electionCount = parsedGroupedElectionsResponse.elections.length;
-    const latestElection =
-      parsedGroupedElectionsResponse.elections[electionCount - 1];
+    const totalelection = parsedGroupedElectionsResponse.elections.length;
+    const newelection =
+      parsedGroupedElectionsResponse.elections[totalelection - 1];
 
     //adding question to elections
-    res = await agent.get(`/elections/${latestElection.id}/questions/create`);
+    res = await agent.get(`/elections/${newelection.id}/questions/create`);
     csrfToken = extractCsrfToken(res);
-    await agent.post(`/elections/${latestElection.id}/questions/create`).send({
-      QuestionName: "Test question 1",
-      Description: "Test description 1",
+    await agent.post(`/elections/${newelection.id}/questions/create`).send({
+      QuestionName: "who  is   cr",
+      Description: "choose from option 1",
       _csrf: csrfToken,
     });
 
-    res = await agent.get(`/elections/${latestElection.id}/questions/create`);
+    res = await agent.get(`/elections/${newelection.id}/questions/create`);
     csrfToken = extractCsrfToken(res);
-    await agent.post(`/elections/${latestElection.id}/questions/create`).send({
-      QuestionName: "Test question 2",
-      Description: "Test description 2",
+    await agent.post(`/elections/${newelection.id}/questions/create`).send({
+      QuestionName: "who is cr2",
+      Description: "choose from option 2",
       _csrf: csrfToken,
     });
 
     const groupedQuestionsResponse = await agent
-      .get(`/elections/${latestElection.id}/questions`)
+      .get(`/elections/${newelection.id}/questions`)
       .set("Accept", "application/json");
     const parsedQuestionsGroupedResponse = JSON.parse(
       groupedQuestionsResponse.text
     );
-    const questionCount = parsedQuestionsGroupedResponse.questions.length;
-    const latestQuestion =
-      parsedQuestionsGroupedResponse.questions[questionCount - 1];
+    const countquestion = parsedQuestionsGroupedResponse.questions.length;
+    const newquestion =
+      parsedQuestionsGroupedResponse.questions[countquestion - 1];
 
-    res = await agent.get(`/elections/${latestElection.id}/questions`);
+    res = await agent.get(`/elections/${newelection.id}/questions`);
     csrfToken = extractCsrfToken(res);
     const deleteResponse = await agent
-      .delete(`/elections/${latestElection.id}/questions/${latestQuestion.id}`)
+      .delete(`/elections/${newelection.id}/questions/${newquestion.id}`)
       .send({
         _csrf: csrfToken,
       });
     const parsedDeleteResponse = JSON.parse(deleteResponse.text).success;
     expect(parsedDeleteResponse).toBe(true);
 
-    res = await agent.get(`/elections/${latestElection.id}/questions`);
+    res = await agent.get(`/elections/${newelection.id}/questions`);
     csrfToken = extractCsrfToken(res);
 
     const deleteResponse2 = await agent
-      .delete(`/elections/${latestElection.id}/questions/${latestQuestion.id}`)
+      .delete(`/elections/${newelection.id}/questions/${newquestion.id}`)
       .send({
         _csrf: csrfToken,
       });
@@ -191,7 +191,7 @@ describe("Online voting application", function () {
     let res = await agent.get("/elections/new");
     let csrfToken = extractCsrfToken(res);
     await agent.post("/elections").send({
-      ElectionName: "Test election",
+      ElectionName: "select cr",
       customurl: "test4",
       _csrf: csrfToken,
     });
@@ -201,34 +201,34 @@ describe("Online voting application", function () {
     const parsedGroupedElectionsResponse = JSON.parse(
       groupedElectionsResponse.text
     );
-    const electionCount = parsedGroupedElectionsResponse.elections.length;
-    const latestElection =
-      parsedGroupedElectionsResponse.elections[electionCount - 1];
+    const totalelection = parsedGroupedElectionsResponse.elections.length;
+    const newelection =
+      parsedGroupedElectionsResponse.elections[totalelection - 1];
 
     //adding question to elections
-    res = await agent.get(`/elections/${latestElection.id}/questions/create`);
+    res = await agent.get(`/elections/${newelection.id}/questions/create`);
     csrfToken = extractCsrfToken(res);
-    await agent.post(`/elections/${latestElection.id}/questions/create`).send({
-      QuestionName: "Test question 1",
-      Description: "Test description 1",
+    await agent.post(`/elections/${newelection.id}/questions/create`).send({
+      QuestionName: "who  is   cr",
+      Description: "choose from option 1",
       _csrf: csrfToken,
     });
 
     const groupedQuestionsResponse = await agent
-      .get(`/elections/${latestElection.id}/questions`)
+      .get(`/elections/${newelection.id}/questions`)
       .set("Accept", "application/json");
     const parsedQuestionsGroupedResponse = JSON.parse(
       groupedQuestionsResponse.text
     );
-    const questionCount = parsedQuestionsGroupedResponse.questions.length;
-    const latestQuestion =
-      parsedQuestionsGroupedResponse.questions[questionCount - 1];
+    const countquestion = parsedQuestionsGroupedResponse.questions.length;
+    const newquestion =
+      parsedQuestionsGroupedResponse.questions[countquestion - 1];
 
     res = await agent.get(
-      `/elections/${latestElection.id}/questions/${latestQuestion.id}/edit`
+      `/elections/${newelection.id}/questions/${newquestion.id}/edit`
     );
     csrfToken = extractCsrfToken(res);
-    res = await agent.put(`/questions/${latestQuestion.id}/edit`).send({
+    res = await agent.put(`/elections/${newelection.id}/questions/${newquestion.id}/edit`).send({
       _csrf: csrfToken,
       QuestionName: "123",
       Description: "456",
@@ -236,7 +236,7 @@ describe("Online voting application", function () {
     expect(res.statusCode).toBe(200);
   });
 
-  test("Adding a option", async () => {
+  test("adding a options to question", async () => {
     const agent = request.agent(server);
     await login(agent, "test@gmail.com", "ashish");
 
@@ -244,7 +244,7 @@ describe("Online voting application", function () {
     let res = await agent.get("/elections/new");
     let csrfToken = extractCsrfToken(res);
     await agent.post("/elections").send({
-      ElectionName: "Test election",
+      ElectionName: "select cr",
       customurl: "test5",
       _csrf: csrfToken,
     });
@@ -252,35 +252,35 @@ describe("Online voting application", function () {
       .get("/elections")
       .set("Accept", "application/json");
     const parsedGroupedResponse = JSON.parse(groupedElectionsResponse.text);
-    const electionCount = parsedGroupedResponse.elections.length;
-    const latestElection = parsedGroupedResponse.elections[electionCount - 1];
+    const totalelection = parsedGroupedResponse.elections.length;
+    const newelection = parsedGroupedResponse.elections[totalelection - 1];
 
     //adding question to elections
-    res = await agent.get(`/elections/${latestElection.id}/questions/create`);
+    res = await agent.get(`/elections/${newelection.id}/questions/create`);
     csrfToken = extractCsrfToken(res);
-    await agent.post(`/elections/${latestElection.id}/questions/create`).send({
-      QuestionName: "Test question",
-      Description: "Test description",
+    await agent.post(`/elections/${newelection.id}/questions/create`).send({
+      QuestionName: "who is cr",
+      Description: "choose from option",
       _csrf: csrfToken,
     });
 
     const groupedQuestionsResponse = await agent
-      .get(`/elections/${latestElection.id}/questions`)
+      .get(`/elections/${newelection.id}/questions`)
       .set("Accept", "application/json");
     const parsedQuestionsGroupedResponse = JSON.parse(
       groupedQuestionsResponse.text
     );
-    const questionCount = parsedQuestionsGroupedResponse.questions.length;
-    const latestQuestion =
-      parsedQuestionsGroupedResponse.questions[questionCount - 1];
+    const countquestion = parsedQuestionsGroupedResponse.questions.length;
+    const newquestion =
+      parsedQuestionsGroupedResponse.questions[countquestion - 1];
 
     res = await agent.get(
-      `/elections/${latestElection.id}/questions/${latestQuestion.id}`
+      `/elections/${newelection.id}/questions/${newquestion.id}`
     );
     csrfToken = extractCsrfToken(res);
 
     res = await agent
-      .post(`/elections/${latestElection.id}/questions/${latestQuestion.id}`)
+      .post(`/elections/${newelection.id}/questions/${newquestion.id}`)
       .send({
         _csrf: csrfToken,
         option: "Test option",
@@ -296,7 +296,7 @@ describe("Online voting application", function () {
     let res = await agent.get("/elections/new");
     let csrfToken = extractCsrfToken(res);
     await agent.post("/elections").send({
-      ElectionName: "Test election",
+      ElectionName: "select cr",
       customurl: "test6",
       _csrf: csrfToken,
     });
@@ -306,55 +306,55 @@ describe("Online voting application", function () {
     const parsedGroupedElectionsResponse = JSON.parse(
       groupedElectionsResponse.text
     );
-    const electionCount = parsedGroupedElectionsResponse.elections.length;
-    const latestElection =
-      parsedGroupedElectionsResponse.elections[electionCount - 1];
+    const totalelection = parsedGroupedElectionsResponse.elections.length;
+    const newelection =
+      parsedGroupedElectionsResponse.elections[totalelection - 1];
 
     //adding question to elections
-    res = await agent.get(`/elections/${latestElection.id}/questions/create`);
+    res = await agent.get(`/elections/${newelection.id}/questions/create`);
     csrfToken = extractCsrfToken(res);
-    await agent.post(`/elections/${latestElection.id}/questions/create`).send({
-      QuestionName: "Test question 1",
-      Description: "Test description 1",
+    await agent.post(`/elections/${newelection.id}/questions/create`).send({
+      QuestionName: "who  is   cr",
+      Description: "choose from option 1",
       _csrf: csrfToken,
     });
 
     const groupedQuestionsResponse = await agent
-      .get(`/elections/${latestElection.id}/questions`)
+      .get(`/elections/${newelection.id}/questions`)
       .set("Accept", "application/json");
     const parsedQuestionsGroupedResponse = JSON.parse(
       groupedQuestionsResponse.text
     );
-    const questionCount = parsedQuestionsGroupedResponse.questions.length;
-    const latestQuestion =
-      parsedQuestionsGroupedResponse.questions[questionCount - 1];
+    const countquestion = parsedQuestionsGroupedResponse.questions.length;
+    const newquestion =
+      parsedQuestionsGroupedResponse.questions[countquestion - 1];
 
     res = await agent.get(
-      `/elections/${latestElection.id}/questions/${latestQuestion.id}`
+      `/elections/${newelection.id}/questions/${newquestion.id}`
     );
     csrfToken = extractCsrfToken(res);
     res = await agent
-      .post(`/elections/${latestElection.id}/questions/${latestQuestion.id}`)
+      .post(`/elections/${newelection.id}/questions/${newquestion.id}`)
       .send({
         _csrf: csrfToken,
         option: "Test option",
       });
 
     const groupedOptionsResponse = await agent
-      .get(`/elections/${latestElection.id}/questions/${latestQuestion.id}`)
+      .get(`/elections/${newelection.id}/questions/${newquestion.id}`)
       .set("Accept", "application/json");
     const parsedOptionsGroupedResponse = JSON.parse(
       groupedOptionsResponse.text
     );
     const optionsCount = parsedOptionsGroupedResponse.options.length;
-    const latestOption = parsedOptionsGroupedResponse.options[optionsCount - 1];
+    const newoption = parsedOptionsGroupedResponse.options[optionsCount - 1];
 
     res = await agent.get(
-      `/elections/${latestElection.id}/questions/${latestQuestion.id}`
+      `/elections/${newelection.id}/questions/${newquestion.id}`
     );
     csrfToken = extractCsrfToken(res);
     const deleteResponse = await agent
-      .delete(`/options/${latestOption.id}`)
+      .delete(`/elections/${newelection.id}/questions/${newquestion.id}/options/${newoption.id}`)
       .send({
         _csrf: csrfToken,
       });
@@ -362,11 +362,11 @@ describe("Online voting application", function () {
     expect(parsedDeleteResponse).toBe(true);
 
     res = await agent.get(
-      `/elections/${latestElection.id}/questions/${latestQuestion.id}`
+      `/elections/${newelection.id}/questions/${newquestion.id}`
     );
     csrfToken = extractCsrfToken(res);
     const deleteResponse2 = await agent
-      .delete(`/options/${latestOption.id}`)
+      .delete(`/elections/${newelection.id}/questions/${newquestion.id}/options/${newoption.id}`)
       .send({
         _csrf: csrfToken,
       });
@@ -382,7 +382,7 @@ describe("Online voting application", function () {
     let res = await agent.get("/elections/new");
     let csrfToken = extractCsrfToken(res);
     await agent.post("/elections").send({
-      ElectionName: "Test election",
+      ElectionName: "select cr",
       customurl: "test7",
       _csrf: csrfToken,
     });
@@ -392,55 +392,55 @@ describe("Online voting application", function () {
     const parsedGroupedElectionsResponse = JSON.parse(
       groupedElectionsResponse.text
     );
-    const electionCount = parsedGroupedElectionsResponse.elections.length;
-    const latestElection =
-      parsedGroupedElectionsResponse.elections[electionCount - 1];
+    const totalelection = parsedGroupedElectionsResponse.elections.length;
+    const newelection =
+      parsedGroupedElectionsResponse.elections[totalelection - 1];
 
     //adding question to elections
-    res = await agent.get(`/elections/${latestElection.id}/questions/create`);
+    res = await agent.get(`/elections/${newelection.id}/questions/create`);
     csrfToken = extractCsrfToken(res);
-    await agent.post(`/elections/${latestElection.id}/questions/create`).send({
-      QuestionName: "Test question 1",
-      Description: "Test description 1",
+    await agent.post(`/elections/${newelection.id}/questions/create`).send({
+      QuestionName: "who  is   cr",
+      Description: "choose from option 1",
       _csrf: csrfToken,
     });
 
     const groupedQuestionsResponse = await agent
-      .get(`/elections/${latestElection.id}/questions`)
+      .get(`/elections/${newelection.id}/questions`)
       .set("Accept", "application/json");
     const parsedQuestionsGroupedResponse = JSON.parse(
       groupedQuestionsResponse.text
     );
-    const questionCount = parsedQuestionsGroupedResponse.questions.length;
-    const latestQuestion =
-      parsedQuestionsGroupedResponse.questions[questionCount - 1];
+    const countquestion = parsedQuestionsGroupedResponse.questions.length;
+    const newquestion =
+      parsedQuestionsGroupedResponse.questions[countquestion - 1];
 
     res = await agent.get(
-      `/elections/${latestElection.id}/questions/${latestQuestion.id}`
+      `/elections/${newelection.id}/questions/${newquestion.id}`
     );
     csrfToken = extractCsrfToken(res);
     res = await agent
-      .post(`/elections/${latestElection.id}/questions/${latestQuestion.id}`)
+      .post(`/elections/${newelection.id}/questions/${newquestion.id}`)
       .send({
         _csrf: csrfToken,
         option: "Test option",
       });
 
     const groupedOptionsResponse = await agent
-      .get(`/elections/${latestElection.id}/questions/${latestQuestion.id}`)
+      .get(`/elections/${newelection.id}/questions/${newquestion.id}`)
       .set("Accept", "application/json");
     const parsedOptionsGroupedResponse = JSON.parse(
       groupedOptionsResponse.text
     );
     const optionsCount = parsedOptionsGroupedResponse.options.length;
-    const latestOption = parsedOptionsGroupedResponse.options[optionsCount - 1];
+    const newoption = parsedOptionsGroupedResponse.options[optionsCount - 1];
 
     res = await agent.get(
-      `/elections/${latestElection.id}/questions/${latestQuestion.id}/options/${latestOption.id}/edit`
+      `/elections/${newelection.id}/questions/${newquestion.id}/options/${newoption.id}/edit`
     );
     csrfToken = extractCsrfToken(res);
 
-    res = await agent.put(`/options/${latestOption.id}/edit`).send({
+    res = await agent.put(`/elections/${newelection.id}/questions/${newquestion.id}/options/${newoption.id}/edit`).send({
       _csrf: csrfToken,
       option: "testoption",
     });
@@ -455,7 +455,7 @@ describe("Online voting application", function () {
     let res = await agent.get("/elections/new");
     let csrfToken = extractCsrfToken(res);
     await agent.post("/elections").send({
-      ElectionName: "Test election",
+      ElectionName: "select cr",
       customurl: "test8",
       _csrf: csrfToken,
     });
@@ -463,17 +463,17 @@ describe("Online voting application", function () {
       .get("/elections")
       .set("Accept", "application/json");
     const parsedGroupedResponse = JSON.parse(groupedElectionsResponse.text);
-    const electionCount = parsedGroupedResponse.elections.length;
-    const latestElection = parsedGroupedResponse.elections[electionCount - 1];
+    const totalelection = parsedGroupedResponse.elections.length;
+    const newelection = parsedGroupedResponse.elections[totalelection - 1];
 
     //adding question to elections
-    res = await agent.get(`/elections/${latestElection.id}/voters/create`);
+    res = await agent.get(`/elections/${newelection.id}/voters/create`);
     csrfToken = extractCsrfToken(res);
     res = await agent
-      .post(`/elections/${latestElection.id}/voters/create`)
+      .post(`/elections/${newelection.id}/voters/create`)
       .send({
-        votername: "Test voter",
-        Password: "Test password",
+        votername: "nani",
+        Password: "12345678",
         _csrf: csrfToken,
       });
     expect(res.statusCode).toBe(302);
@@ -487,7 +487,7 @@ describe("Online voting application", function () {
     let res = await agent.get("/elections/new");
     let csrfToken = extractCsrfToken(res);
     await agent.post("/elections").send({
-      ElectionName: "Test election",
+      ElectionName: "select cr",
       customurl: "test9",
       _csrf: csrfToken,
     });
@@ -495,41 +495,51 @@ describe("Online voting application", function () {
       .get("/elections")
       .set("Accept", "application/json");
     const parsedGroupedResponse = JSON.parse(groupedElectionsResponse.text);
-    const electionCount = parsedGroupedResponse.elections.length;
-    const latestElection = parsedGroupedResponse.elections[electionCount - 1];
+    const totalelection = parsedGroupedResponse.elections.length;
+    const newelection = parsedGroupedResponse.elections[totalelection - 1];
 
-    //adding question to elections
-    res = await agent.get(`/elections/${latestElection.id}/voters/create`);
+     //add a voter
+     res = await agent.get(`/elections/${newelection.id}/voters/create`);
+     csrfToken = extractCsrfToken(res);
+     res = await agent
+       .post(`/elections/${newelection.id}/voters/create`)
+       .send({
+         votername: "nani1",
+         Password: "12345678",
+         _csrf: csrfToken,
+       });
+    //add a voter
+    res = await agent.get(`/elections/${newelection.id}/voters/create`);
     csrfToken = extractCsrfToken(res);
     res = await agent
-      .post(`/elections/${latestElection.id}/voters/create`)
+      .post(`/elections/${newelection.id}/voters/create`)
       .send({
-        votername: "Test voter1",
-        Password: "Test password",
+        votername: "nani2",
+        Password: "12345678",
         _csrf: csrfToken,
       });
 
     const groupedVotersResponse = await agent
-      .get(`/elections/${latestElection.id}/voters`)
+      .get(`/elections/${newelection.id}/voters`)
       .set("Accept", "application/json");
     const parsedVotersGroupedResponse = JSON.parse(groupedVotersResponse.text);
-    const votersCount = parsedVotersGroupedResponse.voters.length;
-    const latestVoter = parsedVotersGroupedResponse.voters[votersCount - 1];
+    const totalvoters = parsedVotersGroupedResponse.voters.length;
+    const latestVoter = parsedVotersGroupedResponse.voters[totalvoters - 1];
 
-    res = await agent.get(`/elections/${latestElection.id}/voters/`);
+    res = await agent.get(`/elections/${newelection.id}/voters/`);
     csrfToken = extractCsrfToken(res);
     const deleteResponse = await agent
-      .delete(`/elections/${latestElection.id}/voters/${latestVoter.id}`)
+      .delete(`/elections/${newelection.id}/voters/${latestVoter.id}`)
       .send({
         _csrf: csrfToken,
       });
     const parsedDeleteResponse = JSON.parse(deleteResponse.text).success;
     expect(parsedDeleteResponse).toBe(true);
 
-    res = await agent.get(`/elections/${latestElection.id}/voters/`);
+    res = await agent.get(`/elections/${newelection.id}/voters/`);
     csrfToken = extractCsrfToken(res);
     const deleteResponse2 = await agent
-      .delete(`/elections/${latestElection.id}/voters/${latestVoter.id}`)
+      .delete(`/elections/${newelection.id}/voters/${latestVoter.id}`)
       .send({
         _csrf: csrfToken,
       });
@@ -545,18 +555,18 @@ describe("Online voting application", function () {
     let res = await agent.get("/elections/new");
     let csrfToken = extractCsrfToken(res);
     await agent.post("/elections").send({
-      ElectionName: "Test election",
-      customurl: "test10",
+      ElectionName: "select cr",
+      customurl: "vote0",
       _csrf: csrfToken,
     });
     const groupedElectionsResponse = await agent
       .get("/elections")
       .set("Accept", "application/json");
     const parsedGroupedResponse = JSON.parse(groupedElectionsResponse.text);
-    const electionCount = parsedGroupedResponse.elections.length;
-    const latestElection = parsedGroupedResponse.elections[electionCount - 1];
+    const totalelection = parsedGroupedResponse.elections.length;
+    const newelection = parsedGroupedResponse.elections[totalelection - 1];
 
-    res = await agent.get(`/elections/${latestElection.id}/checkbeforelaunch`);
+    res = await agent.get(`/elections/${newelection.id}/checkbeforelaunch`);
     csrfToken = extractCsrfToken(res);
     expect(res.statusCode).toBe(302);
   });
@@ -569,70 +579,81 @@ describe("Online voting application", function () {
     let res = await agent.get("/elections/new");
     let csrfToken = extractCsrfToken(res);
     await agent.post("/elections").send({
-      ElectionName: "Test election",
-      customurl: "test11",
+      ElectionName: "select cr",
+      customurl: "vote1",
       _csrf: csrfToken,
     });
     const groupedElectionsResponse = await agent
       .get("/elections")
       .set("Accept", "application/json");
     const parsedGroupedResponse = JSON.parse(groupedElectionsResponse.text);
-    const electionCount = parsedGroupedResponse.elections.length;
-    const latestElection = parsedGroupedResponse.elections[electionCount - 1];
+    const totalelection = parsedGroupedResponse.elections.length;
+    const newelection = parsedGroupedResponse.elections[totalelection - 1];
 
     //adding question to elections
-    res = await agent.get(`/elections/${latestElection.id}/questions/create`);
+    res = await agent.get(`/elections/${newelection.id}/questions/create`);
     csrfToken = extractCsrfToken(res);
-    await agent.post(`/elections/${latestElection.id}/questions/create`).send({
-      QuestionName: "Test question",
-      Description: "Test description",
+    await agent.post(`/elections/${newelection.id}/questions/create`).send({
+      QuestionName: "who is cr",
+      Description: "choose from option",
       _csrf: csrfToken,
     });
 
     const groupedQuestionsResponse = await agent
-      .get(`/elections/${latestElection.id}/questions`)
+      .get(`/elections/${newelection.id}/questions`)
       .set("Accept", "application/json");
     const parsedQuestionsGroupedResponse = JSON.parse(
       groupedQuestionsResponse.text
     );
-    const questionCount = parsedQuestionsGroupedResponse.questions.length;
-    const latestQuestion =
-      parsedQuestionsGroupedResponse.questions[questionCount - 1];
+    const countquestion = parsedQuestionsGroupedResponse.questions.length;
+    const newquestion =
+      parsedQuestionsGroupedResponse.questions[countquestion - 1];
 
     //adding options 1 to the question
     res = await agent.get(
-      `/elections/${latestElection.id}/questions/${latestQuestion.id}`
+      `/elections/${newelection.id}/questions/${newquestion.id}`
     );
     csrfToken = extractCsrfToken(res);
     res = await agent
-      .post(`/elections/${latestElection.id}/questions/${latestQuestion.id}`)
+      .post(`/elections/${newelection.id}/questions/${newquestion.id}`)
       .send({
         _csrf: csrfToken,
         option: "Test option",
+      });
+
+    //adding  a voter
+    res = await agent.get(`/elections/${newelection.id}/voters/create`);
+    csrfToken = extractCsrfToken(res);
+    res = await agent
+      .post(`/elections/${newelection.id}/voters/create`)
+      .send({
+        votername: "nani8",
+        Password: "12345678",
+        _csrf: csrfToken,
       });
 
     //adding options 2 to the question
     res = await agent.get(
-      `/elections/${latestElection.id}/questions/${latestQuestion.id}`
+      `/elections/${newelection.id}/questions/${newquestion.id}`
     );
     csrfToken = extractCsrfToken(res);
     res = await agent
-      .post(`/elections/${latestElection.id}/questions/${latestQuestion.id}`)
+      .post(`/elections/${newelection.id}/questions/${newquestion.id}`)
       .send({
         _csrf: csrfToken,
         option: "Test option",
       });
 
-    res = await agent.get(`/elections/${latestElection.id}/checkbeforelaunch`);
+    res = await agent.get(`/elections/${newelection.id}/checkbeforelaunch`);
     csrfToken = extractCsrfToken(res);
 
     //election is not launched by default
-    expect(latestElection.launched).toBe(false);
-    res = await agent.put(`/elections/${latestElection.id}/launch`).send({
+    expect(newelection.launched).toBe(false);
+    res = await agent.put(`/elections/${newelection.id}/launch`).send({
       _csrf: csrfToken,
     });
-    const launchedElectionRes = JSON.parse(res.text);
-    expect(launchedElectionRes[1][0].launched).toBe(true);
+    const Electionres = JSON.parse(res.text);
+    expect(Electionres[1][0].launched).toBe(true);
   });
 
   test("Cannot edit questions after launching election", async () => {
@@ -643,43 +664,43 @@ describe("Online voting application", function () {
     let res = await agent.get("/elections/new");
     let csrfToken = extractCsrfToken(res);
     await agent.post("/elections").send({
-      ElectionName: "Test election",
-      customurl: "test12",
+      ElectionName: "select cr",
+      customurl: "vote2",
       _csrf: csrfToken,
     });
     const groupedElectionsResponse = await agent
       .get("/elections")
       .set("Accept", "application/json");
     const parsedGroupedResponse = JSON.parse(groupedElectionsResponse.text);
-    const electionCount = parsedGroupedResponse.elections.length;
-    const latestElection = parsedGroupedResponse.elections[electionCount - 1];
+    const totalelection = parsedGroupedResponse.elections.length;
+    const newelection = parsedGroupedResponse.elections[totalelection - 1];
 
     //adding question to elections
-    res = await agent.get(`/elections/${latestElection.id}/questions/create`);
+    res = await agent.get(`/elections/${newelection.id}/questions/create`);
     csrfToken = extractCsrfToken(res);
-    await agent.post(`/elections/${latestElection.id}/questions/create`).send({
-      QuestionName: "Test question",
-      Description: "Test description",
+    await agent.post(`/elections/${newelection.id}/questions/create`).send({
+      QuestionName: "who is cr",
+      Description: "choose from option",
       _csrf: csrfToken,
     });
 
     const groupedQuestionsResponse = await agent
-      .get(`/elections/${latestElection.id}/questions`)
+      .get(`/elections/${newelection.id}/questions`)
       .set("Accept", "application/json");
     const parsedQuestionsGroupedResponse = JSON.parse(
       groupedQuestionsResponse.text
     );
-    const questionCount = parsedQuestionsGroupedResponse.questions.length;
-    const latestQuestion =
-      parsedQuestionsGroupedResponse.questions[questionCount - 1];
+    const countquestion = parsedQuestionsGroupedResponse.questions.length;
+    const newquestion =
+      parsedQuestionsGroupedResponse.questions[countquestion - 1];
 
     //adding options 1 to the question
     res = await agent.get(
-      `/elections/${latestElection.id}/questions/${latestQuestion.id}`
+      `/elections/${newelection.id}/questions/${newquestion.id}`
     );
     csrfToken = extractCsrfToken(res);
     res = await agent
-      .post(`/elections/${latestElection.id}/questions/${latestQuestion.id}`)
+      .post(`/elections/${newelection.id}/questions/${newquestion.id}`)
       .send({
         _csrf: csrfToken,
         option: "Test option",
@@ -687,30 +708,41 @@ describe("Online voting application", function () {
 
     //adding options 2 to the question
     res = await agent.get(
-      `/elections/${latestElection.id}/questions/${latestQuestion.id}`
+      `/elections/${newelection.id}/questions/${newquestion.id}`
     );
     csrfToken = extractCsrfToken(res);
     res = await agent
-      .post(`/elections/${latestElection.id}/questions/${latestQuestion.id}`)
+      .post(`/elections/${newelection.id}/questions/${newquestion.id}`)
       .send({
         _csrf: csrfToken,
         option: "Test option",
       });
 
+    //adding a voter
+    res = await agent.get(`/elections/${newelection.id}/voters/create`);
+    csrfToken = extractCsrfToken(res);
+    res = await agent
+      .post(`/elections/${newelection.id}/voters/create`)
+      .send({
+        votername: "nani2",
+        Password: "12345678",
+        _csrf: csrfToken,
+      });
+
     //You can edit questions while election is running
-    res = await agent.get(`/elections/${latestElection.id}/questions`);
+    res = await agent.get(`/elections/${newelection.id}/questions`);
     expect(res.statusCode).toBe(200);
 
-    res = await agent.get(`/elections/${latestElection.id}/checkbeforelaunch`);
+    res = await agent.get(`/elections/${newelection.id}/checkbeforelaunch`);
     csrfToken = extractCsrfToken(res);
-    res = await agent.put(`/elections/${latestElection.id}/launch`).send({
+    res = await agent.put(`/elections/${newelection.id}/launch`).send({
       _csrf: csrfToken,
     });
-    const launchedElectionRes = JSON.parse(res.text);
-    expect(launchedElectionRes[1][0].launched).toBe(true);
+    const Electionres = JSON.parse(res.text);
+    expect(Electionres[1][0].launched).toBe(true);
 
     //cannot edit questions while election is launched
-    res = await agent.get(`/elections/${latestElection.id}/questions`);
+    res = await agent.get(`/elections/${newelection.id}/questions`);
     expect(res.statusCode).toBe(302);
   });
 });
