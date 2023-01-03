@@ -10,16 +10,21 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       ElectionName: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       customurl: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true,
       },
       launched: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
       },
       stopped: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
       },
       createdAt: {
         allowNull: false,

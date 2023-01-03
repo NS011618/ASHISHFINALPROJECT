@@ -10,10 +10,13 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       votername: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true,
       },
       Password: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       role: {
         type: Sequelize.STRING,
