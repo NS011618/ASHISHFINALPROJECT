@@ -31,6 +31,7 @@ https://final-project-wd-11.onrender.com
 - Admin can register voters
 - Admin can launch election
 - Elections administrator can set custom path to election
+- Voter can login to voting page and submit his response
 - Ending the election
 - We cannot delete election after ending election
 - We cannot edit questions after launching election
