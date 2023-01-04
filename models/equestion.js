@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       EQuestion.hasMany(models.Choices, {
         foreignKey: "QID",
       });
-      EQuestion.hasMany(models.voteresponse, {
+      EQuestion.hasMany(models.Voteresponses, {
         foreignKey: "QID",
       });
     }
@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
 
-    static updateQuestion({ QuestionName, Description, id }) {
+    static editQuestion({ QuestionName, Description, id }) {
       return this.update(
         {
           QuestionName,
@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
       );
     }
 
-    static addQuestion({QuestionName, Description, EID }) {
+    static createquestion({QuestionName, Description, EID }) {
       return this.create({
         QuestionName,
         Description,
@@ -61,7 +61,7 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
 
-    static deleteQuestion(id) {
+    static removequestion(id) {
       return this.destroy({
         where: {
           id,

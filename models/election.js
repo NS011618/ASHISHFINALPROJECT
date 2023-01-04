@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       Election.hasMany(models.Voters, {
         foreignKey: "EID",
       });
-      Election.hasMany(models.voteresponse, {
+      Election.hasMany(models.Voteresponses, {
         foreignKey: "EID",
       });
     }
@@ -28,8 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       return this.create({
           ElectionName,  
           customurl,      
-          AID
-          
+          AID,          
       });
     }
     
@@ -67,7 +66,7 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
   
-    static Launchelection(id) {
+    static electionLaunch(id) {
       return this.update(
         {
           launched: true,

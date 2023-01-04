@@ -13,13 +13,12 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Choices.belongsTo(models.EQuestion, {
         foreignKey: "QID",
-        onDelete: "CASCADE",
       });
-      Choices.hasMany(models.voteresponse, {
-        foreignKey: "choice",
+      Choices.hasMany(models.Voteresponses, {
+        foreignKey: "voterchoice",
       });
     }
-    static getOptions(QID) {
+    static Getoptions(QID) {
       return this.findAll({
         where: {
           QID,
@@ -28,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
 
-    static getOption(id) {
+    static Getoption(id) {
       return this.findOne({
         where: {
           id,
@@ -36,14 +35,14 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
 
-    static addOption({ option, QID }) {
+    static addoption({ option, QID }) {
       return this.create({
         option,
         QID,
       });
     }
 
-    static updateOption({ option, id }) {
+    static editoption({ option, id }) {
       return this.update(
         {
           option,
@@ -56,7 +55,7 @@ module.exports = (sequelize, DataTypes) => {
       );
     }
 
-    static deleteOption(id) {
+    static removeoption(id) {
       return this.destroy({
         where: {
           id,

@@ -14,8 +14,8 @@ module.exports = (sequelize, DataTypes) => {
       Voters.belongsTo(models.Election, {
         foreignKey: "EID",
       });
-      Voters.hasMany(models.voteresponse, {
-        foreignKey: "voterID",
+      Voters.hasMany(models.Voteresponses, {
+        foreignKey: "VID",
       });
     }
     
@@ -41,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
 
-    static async getVoters(EID) {
+    static async GetVoters(EID) {
       return await this.findAll({
         where: {
           EID,
@@ -50,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
 
-    static async getVoter(id) {
+    static async GetVoter(id) {
       return await this.findOne({
         where: {
           id,
@@ -58,7 +58,7 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
 
-    static async deleteVoter(id) {
+    static async removevoter(id) {
       return await this.destroy({
         where: {
           id,
