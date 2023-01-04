@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="<%= csrfToken %>">
     <script src="https://cdn.tailwindcss.com"></script>
-    <title><%= title %></title>   
+    <title><%= title %></title>
 </head>
 <body class="bg-gray-50">
     <nav class="p-8 bg-black">
@@ -20,8 +19,6 @@
         <div class="w-full">
             <div class="flex justify-between">
                 <span class="text-4xl my-4 font-medium bg-purple-100 p-3 uppercase text-center "><%= title %></span>
-                
-                
             </div>
             <div>
                 <% if (messages && messages.error && messages.error.length > 0) { %>
@@ -31,11 +28,11 @@
                 <% } %>
             </div>
             <div class="mt-4 bg-white shadow-md rounded-lg text-left">
-                <div class="h-2 bg-black rounded-t-md"></div>
+                <div class="h-2 bg-purple-400 rounded-t-md"></div>
                 <div class="divide-y divide-solid">
                     <h2 class="px-4 py-2 text-2xl font-light ">Answer the below questions</h2>
                     <div class="pb-2 px-8">
-                        <form action="/election/<%= customurl %>" method="post" class="divide-y divide-solid">
+                        <form action="/onlinelection/<%= customurl %>" method="post" class="divide-y divide-solid">
                             <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
                             <ol class="list-decimal mb-5">
                                 <% for(let i=0; i<questions.length; i++) { %>
@@ -58,7 +55,7 @@
                                 <% } %>
                             </ol>
                             <div class="flex py-4">
-                                <button type="submit" class="text-white bg-green-800 rounded w-fit px-4 py-1 hover:bg-black ml-2 ease-linear transition-all duration-150">
+                                <button type="submit" class="text-white bg-purple-800 rounded w-fit px-4 py-1 hover:bg-purple-600 ml-2 ease-linear transition-all duration-150">
                                     Submit vote
                                 </button>
                             </div>
@@ -68,6 +65,5 @@
             </div>
         </div>
     </div>
-    
 </body>
 </html>

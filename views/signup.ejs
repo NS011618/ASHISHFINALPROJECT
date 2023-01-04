@@ -8,28 +8,28 @@
     <title><%= title %></title>
 </head>
 <body class="bg-gray-50">
-    <div class="relative flex min-h-screen text-gray-800 antialiased flex-col justify-center overflow-hidden bg-sky-100 py-6">
+    <div class="relative flex min-h-screen text-gray-800 antialiased flex-col overflow-hidden bg-sky-100 py-6 ">
         <div class="relative sm:w-96 mx-auto text-center">
             <span class="text-2xl font-light ">Create Election Admin Account</span>
             <div>
                 <% if (messages && messages.error && messages.error.length > 0) { %>
                     <% for(var i=0; i<messages.error.length; i++) { %>
-                        <p class="bg-red-100 my-3 list-none rounded-md px-4 py-2 text-black"><%= messages.error[i] %></p>
+                        <p class="bg-red-100 my-3 list-none rounded-md px-4 py-2"><%= messages.error[i] %></p>
                     <% } %>
                 <% } %>
             </div>
-            <div class="mt-4 backdrop-blur-sm bg-white/100 rounded-lg text-left">                
+            <div class="mt-4 backdrop-blur-sm bg-white/100 rounded-lg text-left">
                 <form action="/admin" method="post" class="px-8 py-6">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-                    <label for="FirstName" class="block mt-3 font-semibold">First Name</label>
+                    <label for="FirstName" class="block mt-3 font-semibold">First name</label>
                     <input id="FirstName" name="FirstName" type="text" placeholder="First name" class="border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-indigo-500 focus:ring-1 rounded-md" required>
-                    <label for="LastName" class="block mt-3 font-semibold">Last Name</label>
+                    <label for="LastName" class="block mt-3 font-semibold">Last name</label>
                     <input id="LastName" name="LastName" type="text" placeholder="Last name" class="border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-indigo-500 focus:ring-1 rounded-md">
                     <label for="Email" class="block mt-3 font-semibold">Email</label>
                     <input id="Email" name="Email" type="email" placeholder="Email" class="border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-indigo-500 focus:ring-1 rounded-md" required>
                     <label for="Password" class="block mt-3 font-semibold">Password</label>
                     <input id="Password" name="Password" type="password" placeholder="Password" class="border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-indigo-500 focus:ring-1 rounded-md" required>
-                    <button type="submit" class="mt-6 bg-green-400 w-full text-white py-2 px-6 rounded-md hover:bg-orange-200 ">Signup</button>
+                    <button type="submit" class="mt-6 bg-green-400 w-full text-white py-2 px-6 rounded-md hover:bg-orange-200">Create account</button>
                 </form>
             </div>
             <div class="mt-4">

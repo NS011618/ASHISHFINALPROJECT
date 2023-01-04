@@ -9,12 +9,12 @@
     <title>Edit option</title>
     <script>
         var token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
-        function updateOption() {
+        function editoption() {
             let EID = <%= EID %>;
             let QID = <%= QID %>;
-            let optionID = <%= optionID %>;
+            let OPID = <%= OPID %>;
             let option = document.getElementById("option").value;
-            fetch(`/elections/${EID}/questions/${QID}/options/${optionID}/edit`, {
+            fetch(`/elections/${EID}/questions/${QID}/options/${OPID}/edit`, {
                 method: "put",
                 headers: {"Content-Type":"application/json"},
                 body: JSON.stringify({
@@ -43,12 +43,11 @@
                 <% } %>
             </div>
             <div class="mt-4 bg-gray-100 shadow-md rounded-lg text-left">
-               
                 <div class="px-8 py-6">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-                    <label for="option" class="block mt-3  bg-gray-50 shadow-md text-1xl font-medium  uppercase p-2">Option</label>
+                    <label for="option" class="block mt-3 font-semibold">Option</label>
                     <input value="<%= option %>" id="option" name="option" type="text" placeholder="Option" class="border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-indigo-500 focus:ring-1 rounded-md" required>
-                    <button class="mt-6 w-full bg-gray-50 shadow-md text-black text-2xl font-medium font-light py-1 px-6 rounded-md hover:bg-black hover:text-white uppercase " onclick="updateOption()">Update option</button>
+                    <button class="mt-6 w-full bg-gray-50 shadow-md text-black text-2xl font-medium font-light py-1 px-6 rounded-md hover:bg-black hover:text-white uppercase" onclick="editoption()">Update option</button>
                 </div>
             </div>
         </div>

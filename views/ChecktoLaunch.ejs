@@ -9,7 +9,7 @@
     <title><%= title %></title>
     <script>
         var token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
-        function Launchelection() {
+        function electionLaunch() {
             let EID = <%= EID %>;
             fetch(`/elections/${EID}/launch`, {
                 method: "put",
@@ -32,23 +32,20 @@
             <span class="self-center text-xl font-semibold whitespace-nowrap text-white">ONLINE-VOTING-SYSTEM</span>
           </a>          
         </div>
-      </nav>
+    </nav>
     <div class=" flex  text-gray-800 antialiased flex-col  overflow-hidden bg-gray-50 py-6 sm:py-12 px-20">
         <div class="w-full">
-            
             <div class="flex justify-between">
-                
                 <span class="text-4xl font-light "><%= title %></span>
                 <div class="flex">
                     <div class="bg-black border border-purple-700 text-white rounded w-fit px-4 pt-2 hover:text-white hover:bg-yellow-600 mx-2 ease-linear transition-all duration-150">
                         <a href="/elections/<%= EID %>/">Edit election</a>
                     </div>
-                    <button onclick="Launchelection()" class="text-white bg-red-800 rounded w-fit px-4 hover:bg-blue-600 ml-2 ease-linear transition-all duration-150">
+                    <button onclick="electionLaunch()" class="text-white bg-red-800 rounded w-fit px-4 hover:bg-blue-600 ml-2 ease-linear transition-all duration-150">
                         Launch election
                     </button>
                 </div>
             </div>
-            
             <div>
                 <% if (messages && messages.error && messages.error.length > 0) { %>
                     <% for(var i=0; i<messages.error.length; i++) { %>
@@ -57,32 +54,26 @@
                 <% } %>
             </div>
             <div class="mt-4 bg-white shadow-md rounded-lg text-left">
-                <div class="h-2 bg-black rounded-t-md"></div>
                 <div class="py-6 px-8">
                     <ol class="list-decimal">
                         <% for(let i=0; i<questions.length; i++) { %>
                             <li class="my-6">
-                                
                                 <div class=" grid grid-cols-5 gap-35 border ">
                                     <div class="col-span-1 border px-3">            
                                         <p class="py-2 text-2xl text-red-800 px-5">Question</p>   
-                                                         
                                     </div>
                                     <div class="col-span-4 border">            
                                         <p class="py-2 px-10 text-2xl text-blue-800"><%= questions[i].QuestionName %></p>   
-                                                         
                                     </div>
                                 </div>
                                 <div class=" grid grid-cols-5 gap-35 border  ">
                                     <div class="col-span-1 border px-3">            
                                         <p class="py-2 text-2xl text-red-800 px-5">Description</p>   
-                                                         
                                     </div>
                                     <div class="col-span-4 border">            
                                         <p class="py-2 px-10 text-2xl text-blue-800"><%= questions[i].Description %></p>   
-                                                         
                                     </div>
-                                </div>
+                                </div>                                
                                 <div class="ml-8">
                                     <ol class="list-none">
                                         <% for(let j=0; j<options[i].length; j++) { %>
@@ -97,11 +88,8 @@
                         <% } %>
                     </ol>
                 </div>
-                
             </div>
-            
         </div>
-        
     </div>
     <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
 </body>

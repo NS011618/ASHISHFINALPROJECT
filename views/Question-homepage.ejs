@@ -8,7 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         var token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
-        function deleteQuestion({EID, QID}) {
+        function removequestion({EID, QID}) {
             fetch(`/elections/${EID}/questions/${QID}`, {
                 method: "delete",
                 headers: {"Content-Type":"application/json"},
@@ -29,7 +29,7 @@
     <div class="rounded-lg px-6 py-2">
         <% if (messages && messages.error && messages.error.length > 0) { %>
             <% for(var i=0; i<messages.error.length; i++) { %>
-                <p class="bg-blue-100 my-3 list-none rounded-md px-4 py-2"><%= messages.error[i] %></p>
+                <p class="bg-purple-100 my-3 list-none rounded-md px-4 py-2"><%= messages.error[i] %></p>
             <% } %>
         <% } %>
         </div>
@@ -52,32 +52,32 @@
             <div class="mx-4">  
                 <p class="text-black"><%= (questions.length==0)?"You haven't added any questions yet!":"" %></p>
                 <% if ((questions.length) > 0) { %>
-                <div class="grid grid-cols-17 gap-0 border text-black bg-white/30">
-                    <div class="col-start-1 border ">            
-                        <p class="py-2 px-1 font-medium text-1xl text-center"><%=(questions.length>0)?"S.NO":"" %></p>                                            
-                    </div>
-                    <div class="col-start-2 col-span-7 border">            
-                        <p class="py-2 px-1 font-medium text-1xl text-center"><%=(questions.length>0)?"Question":"" %></p>   
-                                         
-                    </div>
-                    <div class="col-start-9 col-span-3 border">            
-                        <p class="py-2 px-1 font-medium text-1xl text-center"><%=(questions.length>0)?"Description":"" %></p>   
-                    </div>
-                    <div class="col-start-12 col-span-1 border">            
-                        <p class="py-2 px-1 font-medium text-1xl text-center"><%=(questions.length>0)?"Edit Question":"" %></p>                       
-                    </div>
-                    <% if ((questions.length) > 1) { %>
-                        <div class="col-start-13 col-span-1 border">            
-                           <p class="py-2 px-1 font-medium  text-1xl text-center"><%=(questions.length>0)?"Delete Question":"" %></p>                       
+                    <div class="grid grid-cols-17 gap-0 border text-black bg-white/30">
+                        <div class="col-start-1 border ">            
+                            <p class="py-2 px-1 font-medium text-1xl text-center"><%=(questions.length>0)?"S.NO":"" %></p>                                            
                         </div>
-                    <% } %>
+                        <div class="col-start-2 col-span-7 border">            
+                            <p class="py-2 px-1 font-medium text-1xl text-center"><%=(questions.length>0)?"Question":"" %></p>   
+                                             
+                        </div>
+                        <div class="col-start-9 col-span-3 border">            
+                            <p class="py-2 px-1 font-medium text-1xl text-center"><%=(questions.length>0)?"Description":"" %></p>   
+                        </div>
+                        <div class="col-start-12 col-span-1 border">            
+                            <p class="py-2 px-1 font-medium text-1xl text-center"><%=(questions.length>0)?"Edit Question":"" %></p>                       
+                        </div>
+                        <% if ((questions.length) > 1) { %>
+                            <div class="col-start-13 col-span-1 border">            
+                               <p class="py-2 px-1 font-medium  text-1xl text-center"><%=(questions.length>0)?"Delete Question":"" %></p>                       
+                            </div>
+                        <% } %>
+                    </div>
                 <% } %>
-                </div>
-                <div class="grid grid-cols-17 gap-0 border text-black bg-white/30 p-2">
-                    <ol class="list-decimal ">
+                <div class="grid grid-cols-17 gap-0 border text-black bg-white/30 p-2">   
+                    <ol class="list-decimal">
                         <% for (let i=0; i<questions.length; i++) { %>
                             <li class="list-none">
-                                <div class="flex justify-between items-center border w-full my-2 px-2 py-1 rounded hover:bg-orange-50">
+                                <div class="flex justify-between items-center w-full my-2 px-2 py-1 rounded hover:bg-orange-50">
                                     <div class="col-start-1 px-1">
                                         <p class="text-black text-md my-2"><%= i+1 %></p>
                                     </div>
@@ -98,20 +98,19 @@
                                         </div>
                                     </div>
                                     <div class="col-start-13 col-span-1">
-                                        <% if ((questions.length) > 1) { %>                                        
+                                        <% if ((questions.length) > 1) { %>
                                             <div class="rounded w-fit px-2 py-1 flex gap-2 text-black cursor-pointer hover:text-black">
                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mt-1">
-                                                   <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                                                </svg>                                      
-                                               <a onclick="deleteQuestion({EID: <%= id %>, QID: <%= questions[i].id %>})" class="text-sm">Delete question</a>
-                                            </div>                                      
+                                               <a onclick="removequestion({EID: <%= id %>, QID: <%= questions[i].id %>})" class="text-sm">Delete question</a>
+                                            </div>
                                         <% } %>
                                     </div>
-                                    
                                 </div>
-                            </li>
+                             </li>
                         <% } %>
-                    </ol>
+                     </ol>
                 </div>
             </div>
         </div>

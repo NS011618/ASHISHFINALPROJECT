@@ -19,7 +19,7 @@
     <div class=" flex  text-gray-800 antialiased flex-col  overflow-hidden bg-gray-50 py-6 sm:py-12">
         <div class=" py-3 sm:w-96 mx-auto text-center">
             <div class="mt-4 bg-orange-100 shadow-md rounded-lg p-2 px-3 uppercase ">
-               <span class="text-2xl font-medium font-light text-center">Reset voter password</span>
+                <span class="text-2xl font-medium font-light text-center">Reset voter password</span>
             </div>
             <div>
                 <% if (messages && messages.error && messages.error.length > 0) { %>
@@ -29,8 +29,7 @@
                 <% } %>
             </div>
             <div class="mt-4 bg-gray-100 shadow-md rounded-lg text-left">
-                
-                <form action="/elections/<%= EID %>/voters/<%= voterID %>/edit" method="post" class="px-8 py-6">
+                <form action="/elections/<%= EID %>/voters/<%= VID %>/edit" method="post" class="px-8 py-6">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
                     <label for="new-password" class="block mt-3  bg-gray-50 shadow-md text-1xl font-medium  uppercase p-2">New password</label>
                     <input id="new-password" name="new_password" type="password" placeholder="New password" class="border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-indigo-500 focus:ring-1 rounded-md" required>

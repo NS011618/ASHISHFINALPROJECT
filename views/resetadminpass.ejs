@@ -10,14 +10,13 @@
 <body class="bg-gray-50">
     <%- include('header.ejs') %>
     <div class="flex gap-1 bg-green-100 shadow-md w-fit p-3 mx-10 mt-6 bg-gray-50">
-        
         <a href="/elections" class="text-black hover:text-sky-600 text-xl font-medium font-light">Home</a>
         <span class="text-black hover:text-sky-600 text-xl font-medium font-light">></span>
     </div>
     <div class=" flex  text-gray-800 antialiased flex-col  overflow-hidden bg-gray-50 py-4 sm:py-12">
-        <div class=" sm:w-96 mx-auto text-center">
+        <div class="sm:w-96 mx-auto text-center">
             <div class="mt-4 bg-orange-100 shadow-md rounded-lg p-2 px-3 uppercase ">
-               <span class="text-2xl font-medium font-light text-center">Reset your account password</span>
+                <span class="text-2xl font-medium font-light text-center">Reset your account password</span>
             </div>
             <div>
                 <% if (messages && messages.error && messages.error.length > 0) { %>
@@ -26,14 +25,14 @@
                     <% } %>
                 <% } %>
             </div>
-            <div class="mt-4 bg-gray-100 shadow-md rounded-lg text-left">                
-                <form action="/reset-password" method="post" class="px-8 py-6">
+            <div class="mt-4 bg-white shadow-md rounded-lg text-left">
+               <form action="/reset-password" method="post" class="px-8 py-6">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
                     <label for="old-password" class="block mt-3  bg-gray-50 shadow-md text-1xl font-medium  uppercase p-2">Old password</label>
                     <input id="old-password" name="old_password" type="password" placeholder="Old password" class="border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-indigo-500 focus:ring-1 rounded-md" required>
                     <label for="new-password" class="block mt-3  bg-gray-50 shadow-md text-1xl font-medium  uppercase p-2">New password</label>
                     <input id="new-password" name="new_password" type="password" placeholder="New password" class="border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-indigo-500 focus:ring-1 rounded-md" required>
-                    <button type="submit" class="mt-6 w-full bg-gray-50 shadow-md text-black text-2xl font-medium font-light py-1 px-6 rounded-md hover:bg-black hover:text-white uppercase ">Change password</button>
+                    <button type="submit" class="mt-6 w-full bg-gray-50 shadow-md text-black text-2xl font-medium font-light py-1 px-6 rounded-md hover:bg-black hover:text-white uppercase">Change password</button>
                 </form>
             </div>
         </div>

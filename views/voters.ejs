@@ -8,8 +8,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         var token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
-        function deleteVoter({EID, voterID}) {
-            fetch(`/elections/${EID}/voters/${voterID}`, {
+        function removevoter({EID, VID}) {
+            fetch(`/elections/${EID}/voters/${VID}`, {
                 method: "delete",
                 headers: {"Content-Type":"application/json"},
                 body: JSON.stringify({
@@ -26,13 +26,20 @@
 </head>
 <body class="bg-gray-50">
     <%- include('header.ejs') %>
+    <div>
+        <% if (messages && messages.error && messages.error.length > 0) { %>
+            <% for(var i=0; i<messages.error.length; i++) { %>
+                <p class="bg-purple-100 my-3 list-none rounded-md px-4 py-2"><%= messages.error[i] %></p>
+            <% } %>
+        <% } %>
+    </div>
     <div class="flex gap-1 bg-blue-300 shadow-md w-fit p-3 mx-10 mt-6 bg-gray-50">        
         <a href="/elections" class="text-black hover:text-sky-600 text-xl font-medium font-light">Home</a>
         <span  class="text-black hover:text-sky-600 text-xl font-medium font-light">></span>
         <a href="/elections/<%= id %>/" class="text-black hover:text-sky-600 text-xl font-medium font-light">Election</a>
     </div>
     <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-    <div class="my-6 mx-10">        
+    <div class="my-6 mx-10">
         <div class="text-4xl my-4 font-medium shadow-md bg-blue-100 p-3 uppercase text-center">
             <h5 class="text-2xl"><%= title %> - Voters</h5>            
         </div>
@@ -41,30 +48,30 @@
                 <a href="/elections/<%= id %>/voters/create" class="text-black hover:text-sky-600 text-xl font-medium font-light p-2  text-center">Add New Voter</a>
             </div>
         </div>
-            
-        
-        <div class="flex-auto  py-5 rounded p-2 bg-gray-200">
+        <div class="flex-auto py-5 rounded p-2 bg-gray-200">
             <div class="mx-4">  
                 <p class="text-black text-2xl"><%= (voters.length==0)?"You haven't added any voters yet!":"" %></p>
                 <% if ((voters.length) > 0) { %>
-                <div class="grid grid-cols-17 gap-0 border text-black bg-white/30">
-                    <div class="col-start-1 border ">            
-                        <p class="py-2 px-1 font-medium text-1xl text-center"><%=(voters.length>0)?"S.NO":"" %></p>                                            
-                    </div>
-                    <div class="col-start-2 col-span-10 border">            
-                        <p class="py-2 px-1 font-medium text-1xl text-center"><%=(voters.length>0)?"Voter ID":"" %></p> 
-                    </div>
-                    <div class="col-start-12 col-span-1 border">            
-                        <p class="py-2 px-1 font-medium text-1xl text-center"><%=(voters.length>0)?"Reset Password":"" %></p>                       
-                    </div>
-                    <% if (voters.length > 1) { %>
-                        <div class="col-start-13 col-span-1 border">            
-                            <p class="py-2 px-1 font-medium  text-1xl text-center"><%=(voters.length>0)?"Delete Voter":"" %></p>                       
+                    <div class="grid grid-cols-17 gap-0 border text-black bg-white/30">
+                        <div class="col-start-1 border ">            
+                            <p class="py-2 px-1 font-medium text-1xl text-center"><%=(voters.length>0)?"S.NO":"" %></p>                                            
                         </div>
-                    <% } %>
-                </div>   
+                        <div class="col-start-2 col-span-9 border">            
+                            <p class="py-2 px-1 font-medium text-1xl text-center"><%=(voters.length>0)?"Voter ID":"" %></p> 
+                        </div>
+                        <div class="col-start-11 col-span-1 border">            
+                            <p class="py-2 px-1 font-medium text-1xl text-center"><%=(voters.length>0)?"Reset Password":"" %></p>                       
+                        </div>
+                        <div class="col-start-12 col-span-1 border">            
+                            <p class="py-2 px-1 font-medium text-1xl text-center"><%=(voters.length>0)?"Voted or not":"" %></p>                       
+                        </div>
+                        <% if (voters.length > 1) { %>
+                            <div class="col-start-13 col-span-1 border">            
+                                <p class="py-2 px-1 font-medium  text-1xl text-center"><%=(voters.length>0)?"Delete Voter":"" %></p>                       
+                            </div>
+                        <% } %>
+                    </div>   
                 <% } %>
-                
                 <div class="grid grid-cols-17 gap-0 border text-black bg-white/30 p-2">
                     <ol class="list-decimal">
                         <% for (let i=0; i<voters.length; i++) { %>
@@ -78,22 +85,22 @@
                                         <% if (!voters[i].Voted) { %>
                                             <div class="rounded w-fit px-2 py-1 flex gap-2 cursor-pointer hover:text-purple-600">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mt-1">
-                                                   <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                                                 </svg>                                                                          
                                                 <a href="/elections/<%= id %>/voters/<%= voters[i].id %>/edit" class="text-sm">Reset password</a>
                                             </div>
                                             <% if (voters.length > 1) { %>
                                                 <div class="rounded w-fit px-2 py-1 flex gap-2 cursor-pointer hover:text-purple-600">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mt-1">
-                                                       <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                                                      <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                                                     </svg>                                      
-                                                    <a onclick="deleteVoter({EID: <%= id %>, voterID: <%= voters[i].id %>})" class="text-sm">Delete voter</a>
+                                                    <a onclick="removevoter({EID: <%= id %>, VID: <%= voters[i].id %>})" class="text-sm">Delete voter</a>
                                                 </div>
                                             <% } %>
                                         <% } else { %>
                                             <div class="rounded w-fit px-2 py-1 flex gap-2">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                   <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                 </svg>                                                                                 
                                                 <p class="text-sm">voted</p>
                                             </div>
@@ -102,7 +109,7 @@
                                 </div>
                             </li>
                         <% } %>
-                    </ol>
+                     </ol>
                 </div>
             </div>
         </div>

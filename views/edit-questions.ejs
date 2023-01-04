@@ -9,7 +9,7 @@
     <title>Edit question</title>
     <script>
         var token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
-        function updateQuestion() {
+        function editQuestion() {
             let EID = <%= EID %>;
             let QID = <%= QID %>;
             let QuestionName = document.getElementById("QuestionName").value;
@@ -39,7 +39,7 @@
         <span class="text-black hover:text-sky-600 text-xl font-medium font-light">></span>
         <a href="/elections/<%= EID %>/questions" class="text-black hover:text-sky-600 text-xl font-medium font-light">Questions</a>
     </div>
-    <div class=" flex  text-gray-800 antialiased flex-col  overflow-hidden bg-gray-50 py-6 sm:py-7">
+    <div class="flex  text-gray-800 antialiased flex-col  overflow-hidden bg-gray-50 py-6 sm:py-7">
         <div class="sm:w-96 mx-auto text-center">
             <div class="mt-4 bg-gray-100 shadow-md rounded-lg p-3 uppercase ">
                 <span class="text-2xl font-medium font-light text-center">Edit question</span>
@@ -51,15 +51,14 @@
                     <% } %>
                 <% } %>
             </div>
-            <div class="mt-4 bg-gray-100 shadow-md rounded-lg text-left">
-                
+            <div class="mt-4 bg-white shadow-md rounded-lg text-left">
                 <div class="px-8 py-6">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
                     <label for="QuestionName" class="block mt-3  bg-gray-50 shadow-md text-1xl font-medium  uppercase p-2">Question</label>
                     <input value="<%= QuestionName %>" id="QuestionName" name="QuestionName" type="text" placeholder="Question" class="border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-indigo-500 focus:ring-1 rounded-md" required>
                     <label for="Description" class="block mt-3  bg-gray-50 shadow-md text-1xl font-medium  uppercase p-2">Description</label>
                     <textarea id="Description" name="Description" class="border w-full px-2 py-1 mt-2 hover:outline-none focus:outline-none focus:ring-indigo-500 focus:ring-1 rounded-md" placeholder="Description" rows="4" cols="20"><%= Description %></textarea>
-                    <button class="mt-6 w-full bg-gray-50 shadow-md text-black text-2xl font-medium font-light py-1 px-6 rounded-md hover:bg-black hover:text-white uppercase " onclick="updateQuestion()">Update question</button>
+                    <button class="mt-6 w-full bg-gray-50 shadow-md text-black text-2xl font-medium font-light py-1 px-6 rounded-md hover:bg-black hover:text-white uppercase" onclick="editQuestion()">Update question</button>
                 </div>
             </div>
         </div>
