@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="csrf-token" content="<%= csrfToken %>">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        var token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+        function removevoter({EID, VID}) {
+            fetch(`/elections/${EID}/voters/${VID}`, {
+                method: "delete",
+                headers: {"Content-Type":"application/json"},
+                body: JSON.stringify({
+                    "_csrf":token
+                })
+            }).then((res)=>{
+                if (res.ok) {
+                    window.location.reload();
+                }
+            }).catch((err)=> console.error(err))
+        }
+    </script>
+    <title><%= title %></title>
+</head>
+<body class="bg-gray-50">
+    <%- include('header.ejs') %>
+    <div>
+        <% if (messages && messages.error && messages.error.length > 0) { %>
+            <% for(var i=0; i<messages.error.length; i++) { %>
+                <p class="bg-purple-100 my-3 list-none rounded-md px-4 py-2"><%= messages.error[i] %></p>
+            <% } %>
+        <% } %>
+    </div>
+    <div class="flex gap-1 bg-blue-300 shadow-md w-fit p-3 mx-10 mt-6 bg-gray-50">        
+        <a href="/elections" class="text-black hover:text-sky-600 text-xl font-medium font-light">Home</a>
+        <span  class="text-black hover:text-sky-600 text-xl font-medium font-light">></span>
+        <a href="/elections/<%= id %>/" class="text-black hover:text-sky-600 text-xl font-medium font-light">Election</a>
+    </div>
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+    <div class="my-6 mx-10">
+        <div class="text-4xl my-4 font-medium shadow-md bg-blue-100 p-3 uppercase text-center">
+            <h5 class="text-2xl"><%= title %> - Voters</h5>            
+        </div>  
+        <br>              
+        <div class="flex-auto py-5 rounded p-2 bg-gray-200">
+            <div class="mx-4">  
+                <p class="text-black text-2xl"><%= (voters.length==0)?"You haven't added any voters yet!":"" %></p>
+                <% if ((voters.length) > 0) { %>
+                    <div class="grid grid-cols-17 gap-0 border text-black bg-white/30">
+                        <div class="col-start-1 border ">            
+                                <p class="py-2 px-1 font-medium text-1xl text-center"><%=(voters.length>0)?"S.NO":"" %></p>                                            
+                        </div>
+                        <div class="col-start-2 col-span-9 border">            
+                                <p class="py-2 px-1 font-medium text-1xl text-center"><%=(voters.length>0)?"Voter ID":"" %></p> 
+                        </div>                           
+                        <div class="col-start-12 col-span-1 border">            
+                            <p class="py-2 px-1 font-medium text-1xl text-center"><%=(voters.length>0)?"Voted or not":"" %></p>                       
+                        </div>                            
+                    </div>   
+                <% } %>
+                <div class="grid grid-cols-17 gap-0 border text-black bg-white/30 p-2">
+                    <ol class="list-decimal">
+                        <% for (let i=0; i<voters.length; i++) { %>
+                            <li class="list-none">
+                                <div class="flex justify-between items-center w-full my-2 px-2 py-1 rounded hover:bg-purple-50">
+                                    <div class="col-start-1 px-1">
+                                        <p class="text-black text-md my-2"><%= i+1 %></p>
+                                    </div>
+                                    <p class="my-2 text-lg text-black "><%= voters[i].votername %></p>
+                                    <div class="flex gap-2 text-black">
+                                        <% if (voters[i].Voted) { %>                                                                                           
+                                            <div class="rounded w-fit px-2 py-1 flex gap-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>                                                                                 
+                                                <p class="text-sm">voted</p>
+                                            </div>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </li>
+                        <% } %>
+                    </ol>
+                </div>
+            </div>
+        </div>        
+    </div>
+</body>
+</html>

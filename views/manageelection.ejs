@@ -55,10 +55,18 @@
             <h2 class="my-2 text-lg text-black flex gap-1">Your election has <span class="text-purple-600"> <%= TQ %> </span> questions in the ballot</h2>
         </div>
         <div class="mb-8 bt-4">
-            <div class="mt-6 w-fit bg-blue-100 shadow-md text-black text-2xl font-medium font-light py-1 px-6 rounded-md hover:bg-orange-200 hover:text-white uppercase">
-                <a href="/elections/<%= id %>/voters" class="py-1 hover:text-white text-black">Manage voters</a>
-            </div> 
+            <div class="flex gap-10">
+                <div class="mt-6 w-fit bg-blue-100 shadow-md text-black text-2xl font-medium font-light py-1 px-6 rounded-md hover:bg-orange-200 hover:text-white uppercase">
+                   <a href="/elections/<%= id %>/voters" class="py-1 hover:text-white text-black">Manage voters</a>
+                </div> 
+                <div class="mt-6 w-fit bg-blue-100 shadow-md text-black text-2xl font-medium font-light py-1 px-6 rounded-md hover:bg-orange-200 hover:text-white uppercase">
+                   <a href="/elections/<%= id %>/votedornot" class="py-1 hover:text-white text-black">NO.OF VOTERS VOTED</a>
+                </div>  
+            </div>
             <h2 class="my-2 text-lg text-black flex gap-1">Your election has <span class="text-purple-600"> <%= NV %> </span> registered voters.</h2>
+        </div>
+        <div class="mb-6 bt-4">
+                       
         </div>
         <% if (!launched) { %>
             <div class="bg-red-800 rounded w-fit px-4 py-1 hover:bg-blue-600">
