@@ -8,9 +8,12 @@
     <title><%= title %></title>
 </head>
 <body class="bg-gray-40">    
-    <div class="relative flex min-h-screen text-gray-800 antialiased flex-col  overflow-hidden bg-gray-100 py-8 sm:py-12">
-        <div class="relative py-20 sm:w-96 mx-auto text-center">
-            <span class="text-2xl font-light">Login to your account</span>
+    <div class="relative flex min-h-screen text-gray-800 antialiased flex-col  overflow-hidden bg-blue-100 py-8 sm:py-12">
+        <div class="relative py-19 sm:w-100 mx-auto text-center">
+            <div class="mt-4 bg-gray-100 shadow-md rounded-lg p-3 uppercase ">
+                <span class="text-2xl font-medium font-light text-center">Login to your account</span>          
+            </div>
+            
             <div>
                 <% if (messages && messages.error && messages.error.length > 0) { %>
                     <% for(var i=0; i<messages.error.length; i++) { %>
@@ -18,19 +21,24 @@
                     <% } %>
                 <% } %>
             </div>
-            <div class="mt-4 bg-white shadow-md rounded-lg text-left">
-                <form action="/session" method="post" class="px-8 py-6">
+            <div class="mt-4 bg-gray-50 shadow-md rounded-lg text-left">
+                <form action="/session" method="post" class="px-8 py-8">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-                    <label for="Email" class="block mt-3 font-semibold">Email</label>
+                    <label for="Email" class="block mt-3  bg-gray-50 shadow-md text-1xl font-medium  uppercase p-2">Email</label>
                     <input id="Email" name="Email" type="email" placeholder="Email" class="border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-indigo-500 focus:ring-1 rounded-md" required>
-                    <label for="Password" class="block mt-3 font-semibold">Password</label>
+                    <label for="Password" class="block mt-3  bg-gray-50 shadow-md text-1xl font-medium  uppercase p-2">Password</label>
                     <input id="Password" name="Password" type="password" placeholder="Password" class="border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-indigo-500 focus:ring-1 rounded-md" required>
-                    <button type="submit" class="mt-6 w-full bg-red-400 text-white py-2 px-6 rounded-md hover:bg-green-400">Login</button>
+                    <div class="mt-2 flex justify-center"> 
+                        <button type="submit" class="mt-6 w-fit bg-gray-50 shadow-md text-black text-2xl font-medium font-light py-1 px-6 rounded-md hover:bg-black hover:text-white uppercase">Login</button>
+                    </div> 
+                    <div class="mt-4">
+                        <p  class="mt-6 w-full bg-gray-100 shadow-md text-black text-2xl font-medium font-light py-1 px-6 rounded-md  uppercase">Don't have an account? </p>
+                    </div>    
+                    <div class="mt-1 flex justify-center">   
+                        <a href="/signup" class="mt-6 w-fit bg-gray-50 shadow-md text-black text-2xl font-medium font-light py-1 px-6 rounded-md hover:bg-black hover:text-white uppercase">Sign up</a>
+                    </div>                    
                 </form>
-            </div>
-            <div class="mt-4">
-                <a href="/signup" class="text-sm hover:text-red-400">Don't have an account? Sign up</a>
-            </div>
+            </div>            
         </div>
     </div>
 </body>

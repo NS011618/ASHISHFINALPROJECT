@@ -8,9 +8,12 @@
     <title><%= title %></title>
 </head>
 <body class="bg-gray-50">
-    <div class="relative flex min-h-screen text-gray-800 antialiased flex-col overflow-hidden bg-sky-100 py-6 ">
-        <div class="relative sm:w-96 mx-auto text-center">
-            <span class="text-2xl font-light ">Create Election Admin Account</span>
+    <div class="relative flex min-h-screen text-gray-800 antialiased flex-col overflow-hidden bg-blue-100 py-6 ">
+        <div class="relative sm:w-100 mx-auto text-center">
+            <div class="mt-4 bg-gray-100 shadow-md rounded-lg p-3 uppercase ">
+                <span class="text-2xl font-medium font-light text-center">Create Election Admin Account</span>          
+            </div>
+            
             <div>
                 <% if (messages && messages.error && messages.error.length > 0) { %>
                     <% for(var i=0; i<messages.error.length; i++) { %>
@@ -18,23 +21,36 @@
                     <% } %>
                 <% } %>
             </div>
-            <div class="mt-4 backdrop-blur-sm bg-white/100 rounded-lg text-left">
+            <div class="mt-4 bg-gray-50 shadow-md rounded-lg text-left">
                 <form action="/admin" method="post" class="px-8 py-6">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-                    <label for="FirstName" class="block mt-3 font-semibold">First name</label>
-                    <input id="FirstName" name="FirstName" type="text" placeholder="First name" class="border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-indigo-500 focus:ring-1 rounded-md" required>
-                    <label for="LastName" class="block mt-3 font-semibold">Last name</label>
-                    <input id="LastName" name="LastName" type="text" placeholder="Last name" class="border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-indigo-500 focus:ring-1 rounded-md">
-                    <label for="Email" class="block mt-3 font-semibold">Email</label>
+                    <div class="grid grid-cols-4 gap-5">
+                        <div class="col-start-1 col-span-2">
+                            <label for="FirstName" class="block mt-3 justify-between bg-gray-50 shadow-md text-1xl font-medium  uppercase p-2">First name</label>
+                        </div>
+                        <div class="col-start-3 col-span-2">
+                            <label for="LastName" class="block mt-3 bg-gray-50 shadow-md text-1xl font-medium  uppercase p-2">Last name</label>
+                        </div>
+                    </div>
+                    <div class="flex justify-between gap-7">
+                       <input id="FirstName" name="FirstName" type="text" placeholder="First name" class="border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-indigo-500 focus:ring-1 rounded-md" required>
+                       <input id="LastName" name="LastName" type="text" placeholder="Last name" class="border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-indigo-500 focus:ring-1 rounded-md">
+                    </div>                    
+                    <label for="Email" class="block mt-3  bg-gray-50 shadow-md text-1xl font-medium  uppercase p-2">Email</label>
                     <input id="Email" name="Email" type="email" placeholder="Email" class="border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-indigo-500 focus:ring-1 rounded-md" required>
-                    <label for="Password" class="block mt-3 font-semibold">Password</label>
+                    <label for="Password" class="block mt-3  bg-gray-50 shadow-md text-1xl font-medium  uppercase p-2">Password</label>
                     <input id="Password" name="Password" type="password" placeholder="Password" class="border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-indigo-500 focus:ring-1 rounded-md" required>
-                    <button type="submit" class="mt-6 bg-green-400 w-full text-white py-2 px-6 rounded-md hover:bg-orange-200">Create account</button>
+                    <div class="mt-1 flex justify-center"> 
+                        <button type="submit" class="mt-6 w-fit bg-gray-50 shadow-md text-black text-2xl font-medium font-light py-1 px-6 rounded-md hover:bg-black hover:text-white uppercase">Create account</button>
+                    </div> 
+                    <div class="mt-4 text-center">
+                        <p  class="mt-6 w-full bg-gray-100 shadow-md text-black text-2xl font-medium font-light py-1 px-6 rounded-md  uppercase">Already have an account? </p>
+                    </div>    
+                    <div class="mt-1 flex justify-center">   
+                        <a href="/login" class="mt-6 w-fit bg-gray-50 shadow-md text-black text-2xl font-medium font-light py-1 px-6 rounded-md hover:bg-black hover:text-white uppercase">Sign in</a>
+                    </div>  
                 </form>
-            </div>
-            <div class="mt-4">
-                <a href="/login" class="text-sm hover:text-orange-700">Already have an account? Sign in</a>
-            </div>
+            </div>            
         </div>
     </div>
 </body>
