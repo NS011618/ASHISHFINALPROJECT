@@ -981,6 +981,45 @@ app.get(
   }
 );
 
+//Voters Page
+app.get(
+  "/elections/:EID/votedornot",
+  connectEnsureLogin.ensureLoggedIn(),
+  async (request, response) => {
+    if (request.user.role === "admin") {
+      try {
+        const voters = await Voters.GetVoters(request.params.EID);
+        const election = await Election.GetElection(request.params.EID);
+        if (election.stopped) {
+          request.flash("error", "Election ended");
+          return response.redirect(`/elections/${request.params.EID}/`);
+        }
+        if (request.user.id !== election.AID) {
+          request.flash("error", "Election ID is invalid");
+          return response.redirect("/elections");
+        }
+        if (request.accepts("html")) {
+          return response.render("votedornot", {
+            title: election.ElectionName,
+            id: request.params.EID,
+            voters,
+            csrfToken: request.csrfToken(),
+          });
+        } else {
+          return response.json({
+            voters,
+          });
+        }
+      } catch (error) {
+        console.log(error);
+        return response.status(422).json(error);
+      }
+    } else if (request.user.role === "voter") {
+      return response.redirect("/");
+    }
+  }
+);
+
 //Show Voter into voter Page
 app.get(
   "/elections/:EID/voters/create",
