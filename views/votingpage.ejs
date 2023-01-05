@@ -35,10 +35,17 @@
                             <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
                             <ol class="list-decimal mb-5">
                                 <% for(let i=0; i<questions.length; i++) { %>
-                                    <li class="my-2">
-                                        <div class="px-2 py-1">
-                                            <h3 class="text-2xl my-2"><%= questions[i].QuestionName %></h3>
-                                            <p class="text-purple-800 text-md my-2"><%= questions[i].Description %></p>
+                                    <li class="my-2 list-none">
+                                        <div class="grid grid-cols-17 gap-0 p-2 text-black bg-white/30">
+                                            <div class="col-start-1 col-span-1 border p-1">            
+                                                <p class="font-medium text-1xl text-center "><%= i+1 %></p>                                            
+                                            </div>                                        
+                                            <div class="col-start-2 col-span-8 border p-1 capitalize">
+                                               <h3 class="font-light text-2xl px-4"><%= questions[i].QuestionName %></h3>                                               
+                                            </div>
+                                            <div class="col-start-10 col-span-1 border p-1 capitalize">                                               
+                                                <p class="font-light text-2xl text-center "><%= questions[i].Description %></p>
+                                            </div>
                                         </div>
                                         <div class="ml-8">
                                             <ol class="list-none">
