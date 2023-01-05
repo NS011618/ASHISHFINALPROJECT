@@ -8,9 +8,18 @@
     <title><%= title %></title>
 </head>
 <body class="bg-gray-50">
+    <nav class="p-4 bg-orange-200">
+        <div class="container flex flex-wrap items-center justify-between mx-auto bg-white/30 p-4">
+          <a href="/" class="flex items-center">
+            <span class="self-center text-2xl font-light whitespace-nowrap text-black text-center uppercase">Voting System</span>
+          </a> 
+        </div>         
+    </nav>  
     <div class=" flex  text-gray-800 antialiased flex-col  overflow-hidden bg-gray-50 py-6 sm:py-12">
         <div class=" py-3 sm:w-96 mx-auto text-center">
-            <span class="text-2xl font-light ">Login in as Voter</span>
+            <div class="mt-4 bg-gray-100 shadow-md rounded-lg p-3 uppercase ">
+                <span class="text-2xl font-medium font-light text-center">Login in as voter</span>          
+            </div>            
             <div>
                 <% if (messages && messages.error && messages.error.length > 0) { %>
                     <% for(var i=0; i<messages.error.length; i++) { %>
@@ -18,14 +27,16 @@
                     <% } %>
                 <% } %>
             </div>
-            <div class="mt-4 bg-white shadow-md rounded-lg text-left">
+            <div class="mt-4 bg-gray-50 shadow-md rounded-lg text-left">
                 <form action="/onlinelection/<%= customurl %>/voter/" method="post" class="px-8 py-6">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-                    <label for="votername" class="block mt-3 font-semibold">Voter ID</label>
+                    <label for="votername" class="block mt-3  bg-gray-50 shadow-md text-1xl font-medium  uppercase p-2">Voter ID</label>
                     <input id="votername" name="votername" type="text" placeholder="Voter ID" class="border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-indigo-500 focus:ring-1 rounded-md" required>
-                    <label for="Password" class="block mt-3 font-semibold">Password</label>
+                    <label for="Password" class="block mt-3  bg-gray-50 shadow-md text-1xl font-medium  uppercase p-2">Password</label>
                     <input id="Password" name="Password" type="password" placeholder="Password" class="border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-indigo-500 focus:ring-1 rounded-md" required>
-                    <button type="submit" class="mt-6 w-full bg-red-400 text-white py-2 px-6 rounded-md hover:bg-green-400">Login</button>
+                    <div class="mt-1 flex justify-center"> 
+                       <button type="submit" class="mt-6 w-fit bg-gray-50 shadow-md text-black text-2xl font-medium font-light py-1 px-6 rounded-md hover:bg-black hover:text-white uppercase">Login</button>
+                    </div>
                 </form>
             </div>
         </div>

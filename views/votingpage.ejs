@@ -8,17 +8,17 @@
     <title><%= title %></title>
 </head>
 <body class="bg-gray-50">
-    <nav class="p-8 bg-black">
-        <div class="container flex flex-wrap items-center justify-between mx-auto">
+    <nav class="p-4 bg-orange-200">
+        <div class="container flex flex-wrap items-center justify-between mx-auto bg-white/30 p-4">
           <a href="/" class="flex items-center">
-            <span class="self-center text-xl font-semibold whitespace-nowrap text-white">ONLINE-VOTING-SYSTEM</span>
-          </a>          
-        </div>
-    </nav>
+            <span class="self-center text-2xl font-light whitespace-nowrap text-black text-center uppercase">Voting System</span>
+          </a> 
+        </div>         
+    </nav> 
     <div class=" flex  text-gray-800 antialiased flex-col  overflow-hidden bg-gray-50 py-6 sm:py-12 px-20">
         <div class="w-full">
             <div class="flex justify-between">
-                <span class="text-4xl my-4 font-medium bg-purple-100 p-3 uppercase text-center "><%= title %></span>
+                <span class="text-4xl my-4 font-light bg-orange-200 shadow-md p-3 uppercase text-center "><%= title %></span>
             </div>
             <div>
                 <% if (messages && messages.error && messages.error.length > 0) { %>
@@ -27,11 +27,10 @@
                     <% } %>
                 <% } %>
             </div>
-            <div class="mt-4 bg-white shadow-md rounded-lg text-left">
-                <div class="h-2 bg-purple-400 rounded-t-md"></div>
+            <div class="mt-4 bg-gray-50 shadow-md rounded-lg text-left">                
                 <div class="divide-y divide-solid">
-                    <h2 class="px-4 py-2 text-2xl font-light ">Answer the below questions</h2>
-                    <div class="pb-2 px-8">
+                    <h2 class="px-10 py-4 bg-gray-200 text-2xl font-light uppercase">vote for given questions</h2>
+                    <div class="pb-4 px-8">
                         <form action="/onlinelection/<%= customurl %>" method="post" class="divide-y divide-solid">
                             <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
                             <ol class="list-decimal mb-5">
@@ -54,8 +53,8 @@
                                     </li>
                                 <% } %>
                             </ol>
-                            <div class="flex py-4">
-                                <button type="submit" class="text-white bg-purple-800 rounded w-fit px-4 py-1 hover:bg-purple-600 ml-2 ease-linear transition-all duration-150">
+                            <div class="flex py-2">
+                                <button type="submit" class="mt-6 w-fit bg-gray-100 shadow-md text-black text-2xl font-medium font-light py-1 px-6 rounded-md hover:bg-black hover:text-white uppercase">
                                     Submit vote
                                 </button>
                             </div>
