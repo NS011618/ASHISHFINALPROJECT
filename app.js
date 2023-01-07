@@ -457,6 +457,87 @@ app.get(
   }
 );
 
+//Modifying the question
+app.get(
+  "/elections/:EID/edit",
+  connectEnsureLogin.ensureLoggedIn(),
+  async (request, response) => {
+    if (request.user.role === "admin") {
+      try {
+        const election = await Election.GetElection(request.params.EID);
+        if (request.user.id !== election.AID) {
+          request.flash("error", "Election ID is invalid");
+          return response.redirect("/elections");
+        }
+        if (election.launched) {
+          request.flash("error", "Election is running you cannot edit now");
+          return response.redirect(`/elections/${request.params.EID}/`);
+        }
+        if (election.stopped) {
+          request.flash("error", "Election ended");
+          return response.redirect(`/elections/${request.params.EID}/`);
+        }        
+        return response.render("edit-elections", {
+          EID: request.params.EID,          
+          ElectionName: election.ElectionName,
+          customurl: election.customurl,
+          csrfToken: request.csrfToken(),
+        });
+      } catch (error) {
+        console.log(error);
+        return response.status(422).json(error);
+      }
+    } else if (request.user.role === "voter") {
+      return response.redirect("/");
+    }
+  }
+);
+
+//edit election
+app.put(
+  "/elections/:EID/edit",
+  connectEnsureLogin.ensureLoggedIn(),
+  async (request, response) => {
+    if (request.user.role === "admin") {
+      if (request.body.ElectionName.length < 5) {
+        request.flash("error", "The length of election should be atleast 5");
+        return response.json({
+          error: "The length of election should be atleast 5",
+        });
+      }
+      const election = await Election.GetElection(request.params.EID);
+      if (election.launched) {
+        request.flash("error", "Election is running you cannot edit now");
+        return response.redirect(`/elections/${request.params.EID}/`);
+      }
+      if (election.stopped) {
+        request.flash("error", "Election ended");
+        return response.redirect(`/elections/${request.params.EID}/`);
+      }
+      try {
+        const election = await Election.GetElection(request.params.EID);
+        
+        if (request.user.id !== election.AID) {
+          return response.json({
+            error: "Election ID is invalid",
+          });
+        }
+        const editelection = await Election.editElection({
+          ElectionName: request.body.ElectionName,
+          customurl: request.body.customurl,
+          id: request.params.EID,
+        });
+        return response.json(editelection);
+      } catch (error) {
+        console.log(error);
+        return response.status(422).json(error);
+      }
+    } else if (request.user.role === "voter") {
+      return response.redirect("/");
+    }
+  }
+);
+
 //Deleting the election
 app.delete(
   "/elections/:id",
@@ -1477,6 +1558,77 @@ app.get("/onlinelection/:customurl/results", async (request, response) => {
     return response.status(422).json(error);
   }
 });
+
+app.get("/onlinelection/:customurl/previewresult", async (request, response) => {
+  if (!request.user) {
+    request.flash("error", "Please login before viewing results");
+    return response.redirect(`/onlinelection/${request.params.customurl}/voter`);
+  }
+  try {
+    const election = await Election.GetUrl(request.params.customurl);
+    const questions = await EQuestion.GetQuestions(election.id);
+    const responses = await Voteresponses.getresponse(election.id);
+    const voter = await Voters.GetVoters(election.id);
+      
+
+    let totalvote = 0;
+    voter.forEach((tv)=>{
+      if(tv.Voted){
+        totalvote++;
+      }
+    });
+
+    let notvoted = 0;
+    voter.forEach((tv)=>{
+      if(!tv.Voted){
+        notvoted++;
+      }
+    });
+    
+    //total voters count
+    const totalvoter= totalvote+notvoted;
+    
+    let options = [];
+    let votepercent = [];
+    
+    for (let question in questions){
+      
+      let choices = await Choices.Getoptions(questions[question].id);
+      options.push(choices);
+      let choices_count = [];
+      for (let i in choices) {
+        choices_count.push(
+          await Voteresponses.totalvoted({
+            EID: election.id,
+            voterchoice: choices[i].id,
+            QID: questions[question].id,
+          })
+        );
+        
+      }   
+      const per =(choices_count*100)/totalvoter;   
+      votepercent.push(choices_count);
+    }    
+    
+
+    return response.render("resultpreview", {
+      election:election,
+      responses:responses,
+      questions:questions,
+      options:options,
+      percent:votepercent,
+      tv:totalvote,
+      nv:notvoted,
+      TV:totalvoter,
+    });         
+     
+    
+  } catch (error) {
+    console.log(error);
+    return response.status(422).json(error);
+  }
+});
+
 
 app.use(function (request, response) {
   response.status(404).render("error");
