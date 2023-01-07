@@ -25,6 +25,7 @@ https://final-project-wd-11.onrender.com
 - Uses CSRF tokens to prevent attacks 
 - Admin will be able to signup,Login
 - Admin can create the elections
+- Admin can edit election and if election is launched and ended admin cannot edit election
 - Admin can create a ballot of questions in an election
 - Admin can add options and delete options for a question in the election
 - Admin can delete the elections,questions,voters
