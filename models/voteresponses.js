@@ -17,6 +17,25 @@ module.exports = (sequelize, DataTypes) => {
         voterchoice,
       });
     }
+
+    static async totalvoted({ EID, voterchoice, QID }) {
+      return await this.count({
+        where: {
+          EID,
+          voterchoice,
+          QID,
+        },
+      });
+    }
+
+    static async getresponse(EID) {
+      return await this.findAll({
+        where: {
+          EID,
+        },
+      });
+    }    
+
     static associate(models) {
       // define association here
       Voteresponses.belongsTo(models.Voters, {

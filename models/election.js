@@ -49,6 +49,21 @@ module.exports = (sequelize, DataTypes) => {
         },
       });
     }
+
+    static editElection({ ElectionName, customurl, id }) {
+      return this.update(
+        {
+          ElectionName,
+          customurl,
+        },
+        {
+          returning: true,
+          where: {
+            id,
+          },
+        }
+      );
+    }
       
     static deleteElection(id) {
       return this.destroy({
