@@ -31,6 +31,7 @@ https://final-project-wd-11.onrender.com
 - Admin can delete the elections,questions,voters
 - Admin can register voters
 - Admin can launch election
+- Admin can Preview results while election is running
 - Elections administrator can set custom path to election
 - Voter can login to voting page and submit his response
 - Ending the election
