@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Election result</title>
+</head>
+<body class="bg-gray-50">
+    <nav class="p-6 bg-sky-200">
+        <div class="container flex flex-wrap items-center justify-between mx-auto bg-white/30 p-4">
+          <a href="/" class="flex items-center">
+            <span class="self-center text-xl font-semibold whitespace-nowrap text-black  ">Voting System</span>
+          </a>  
+        </div>        
+    </nav>  
+    <div class=" flex  text-gray-800 antialiased flex-col  overflow-hidden bg-gray-50 py-6 sm:py-12 px-20">
+        <div class="w-full">
+            <div>
+                <% if (messages && messages.error && messages.error.length > 0) { %>
+                    <% for(var i=0; i<messages.error.length; i++) { %>
+                        <p class="bg-purple-100 my-3 list-none rounded-md px-4 py-2"><%= messages.error[i] %></p>
+                    <% } %>
+                <% } %>
+            </div>
+            <div class="flex flex-col gap-6">
+                <p class="pt-2 text-gray-600 text-xl"><%= tv %> / <%= TV %> Votes Cast</p>
+            </div>
+            <div class="pt-8">
+                <div class="flex flex-col gap-6">
+                    
+                  <% for (var i=0; i<questions.length; i++) { %>
+                      <div>
+                        <div class=" grid grid-cols-5 gap-35 border ">
+                            <div class="col-span-1 border px-3">            
+                                <p class="py-2 text-2xl text-red-800 px-5">Question</p>   
+                            </div>
+                            <div class="col-span-4 border">            
+                                <p class="py-2 px-10 text-2xl text-blue-800"><%= questions[i].QuestionName %></p>   
+                            </div>
+                        </div>
+      
+                          <div class="pt-6 pl-6 flex flex-col gap-4">
+                              <% for (var j=0; j<options[i].length; j++) { %>
+                                <div class="flex gap-2"><hr width="<%= percent[i][j] %>%" style="height:30px; border:none; color:purple; background-color:purple;" /><p class="flex items-center gap-2 text-xl"><%= options[i][j].option %>:<b class="text-blue-700"><%= percent[i][j] %>%</b></p></div>
+                              <% } %>
+                          </div>
+                      </div>
+                  <% } %>
+                </div>
+        </div>
+    </div>
+</body>
+</html>
